@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "419997538723",
+    "project_id": "amoc-8280b",
+    "storage_bucket": "amoc-8280b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:419997538723:android:342afb387795c88266a216",
+        "android_client_info": {
+          "package_name": "com.example.amoc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "419997538723-fol53l416tti5t07rlsdump91j2rtv4d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.amoc",
+            "certificate_hash": "7681c10b1af38f099346dbd9429b4d434c85a0e5"
+          }
+        },
+        {
+          "client_id": "419997538723-8ciq7ru02gdnr7bfc61207c4mp53dg7d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5C9NeIe5K3-PYpmsG1P9Ypw3NzI62vnw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "419997538723-8ciq7ru02gdnr7bfc61207c4mp53dg7d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
