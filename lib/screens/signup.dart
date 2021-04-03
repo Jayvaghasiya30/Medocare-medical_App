@@ -3,16 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:amoc/utilis/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:amoc/Services/auth_services.dart';
-
 import 'package:amoc/screens/verify.dart';
-
+import 'package:amoc/Dashboard/Dashmain.dart';
 class Signup extends StatelessWidget {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
-
+  final TextEditingController _username = TextEditingController();
+  bool chek = false;
 
 
   @override
@@ -170,7 +169,13 @@ class Signup extends StatelessWidget {
                           width: 285,
                           height: 40,
                           decoration: boxDecoration(Colors.white),
-                          child: textbox("Enter Username")),
+                          child:  TextFormField(
+                            controller: _username,
+                            decoration: inputdecor("Enter Username"),
+
+
+                          ),
+                    ),
                     ),
                     Positioned(
                       left: 85,
@@ -186,7 +191,7 @@ class Signup extends StatelessWidget {
                               Navigator.of(context).push(
                                           MaterialPageRoute(
                                             builder: (context) {
-                                              return verifypage(_emailController.text,_passwordController.text);
+                                              return verifypage(_emailController.text,_passwordController.text,_username.text);
                                             },
                                           ),
                                         );
@@ -230,8 +235,24 @@ class Signup extends StatelessWidget {
                         width: 243,
                         height: 35,
                         child: FlatButton(
-                          onPressed: (){
-                            //verifyotp(_emailController,);
+                          onPressed: () async{
+                            await Provider.of<Auth>(context, listen: false)
+                                .signInWithGoogle()
+                                .then((result) {
+                              print(result);
+                              if(result==null)
+                                print("error");
+                              else{
+                                chek = true;
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return Dashb(email: result,check: chek,);
+                                    },
+                                  ),
+                                );
+                              }
+                            });
                           },
                           child: Text(
                                   "Sign Up with Google+",

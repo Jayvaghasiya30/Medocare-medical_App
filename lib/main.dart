@@ -22,6 +22,7 @@ class dashboard extends StatelessWidget {
     return ChangeNotifierProvider<Auth>(
       create: (context) => Auth(),
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: Scaffold(
           body: SignIn(),
            // This trailing comma makes auto-formatting nicer for build methods.

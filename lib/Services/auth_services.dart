@@ -14,6 +14,7 @@ class Auth extends ChangeNotifier {
   String userEmail = null;
 
   Future<String> register(emaistring, passtring) async {
+
     final User user = (await _auth.createUserWithEmailAndPassword(
       email: emaistring,
       password: passtring,
@@ -60,7 +61,7 @@ class Auth extends ChangeNotifier {
     user1 = user12.displayName.toString();
     userEmail = user12.email.toString();
     notifyListeners();
-    return '$user';
+    return userEmail;
   }
 
   Future<void> signOutGoogle() async {

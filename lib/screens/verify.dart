@@ -3,10 +3,16 @@ import 'package:amoc/Services/auth_services.dart';
 import 'package:provider/provider.dart';
 import 'package:amoc/utilis/constants.dart';
 import 'package:amoc/Dashboard/Dashmain.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+
 class verifypage extends StatelessWidget {
-   verifypage(this.email,this.pass);
+   verifypage(this.email,this.pass,this.username);
   final String email ;
   final String pass;
+  final String username ;
+   final firestoreInstance = FirebaseFirestore.instance;
   final TextEditingController _OPTController = TextEditingController();
    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
@@ -43,10 +49,21 @@ class verifypage extends StatelessWidget {
                             if(result==null)
                               print("error");
                             else{
+                              var firebaseUser =  FirebaseAuth.instance.currentUser;
+                              print(firebaseUser.uid);
+                              firestoreInstance.collection("USERS").doc(result).set(
+                                  {
+                                    "Username" : username,
+
+                                    "email" : result,
+                                    "password" : pass,
+                                  }).then((_){
+                                print("data instered success!");
+                              });
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) {
-                                    return Dashboard();
+                                    return Dashb(email: result,check: false);
                                   },
                                 ),
                               );

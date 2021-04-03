@@ -10,6 +10,7 @@ class SignIn extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool chek = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -158,10 +159,11 @@ class SignIn extends StatelessWidget {
                                 if(result==null)
                                   print("error");
                                 else{
+                                  chek =false;
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (context) {
-                                        return Dashboard();
+                                        return Dashb(email: result,check: chek,);
                                       },
                                     ),
                                   );
@@ -190,7 +192,7 @@ class SignIn extends StatelessWidget {
                       child: Container(
                         width: 243,
                         height: 31,
-                        child: FlatButton(
+                        child: TextButton(
                           onPressed: () async {
                             await Provider.of<Auth>(context, listen: false)
                                 .signInWithGoogle()
@@ -199,10 +201,11 @@ class SignIn extends StatelessWidget {
                               if(result==null)
                                 print("error");
                               else{
+                                chek = true;
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (context) {
-                                      return Dashboard();
+                                      return Dashb(email: result,check: chek,);
                                     },
                                   ),
                                 );

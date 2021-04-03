@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "419997538723-fol53l416tti5t07rlsdump91j2rtv4d.apps.googleusercontent.com",
+          "client_id": "419997538723-hgscb1tgji1d420bt2lco6f8992fv9jk.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.amoc",
-            "certificate_hash": "7681c10b1af38f099346dbd9429b4d434c85a0e5"
+            "certificate_hash": "55e6de9662e3d32f5b2b6202938b55aac6e6aa6d"
           }
         },
         {
