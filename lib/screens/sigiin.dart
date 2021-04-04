@@ -10,12 +10,16 @@ class SignIn extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  bool chek = false;
   @override
   Widget build(BuildContext context) {
+    double Width = MediaQuery.of(context).size.width;
+    double Height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Container(
-        width: 411,
-        height: 731,
+        width: Width,
+        height: Height,
         color: Color(0xff5fb1df),
         padding: const EdgeInsets.only(
           bottom: 79,
@@ -26,8 +30,8 @@ class SignIn extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              width: 411,
-              height: 652,
+              width: Width,
+              height: 652 * Height / 731,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(0),
@@ -46,11 +50,11 @@ class SignIn extends StatelessWidget {
                 child: Stack(
                   children: [
                     Positioned(
-                      left: 84,
-                      top: 539,
+                      left: 84 * Width / 411,
+                      top: 539 * Height / 731,
                       child: Container(
-                        width: 243,
-                        height: 51,
+                        width: 243 * Width / 411,
+                        height: 51 * Height / 731,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(0),
@@ -70,13 +74,15 @@ class SignIn extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                      left: 233,
-                      top: 540,
+                      left: 233 * Width / 411,
+                      top: 540 * Height / 731,
                       child: FlatButton(
                         onPressed: () {
                           //right way: use context in below level tree with MaterialApp
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => Signup()));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Signup()));
                         },
                         child: Text(
                           "Sign Up",
@@ -88,20 +94,20 @@ class SignIn extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                      left: 63,
-                      top: 97,
+                      left: 63 * Width / 411,
+                      top: 97 * Height / 731,
                       child: Container(
-                        width: 285,
-                        height: 443,
+                        width: 285 * Width / 411,
+                        height: 443 * Height / 731,
                         decoration: boxDecoration(Color(0xffb9f6fc)),
                       ),
                     ),
                     Positioned(
-                      left: 84,
-                      top: 273,
+                      left: 84 * Width / 411,
+                      top: 273 * Height / 731,
                       child: Container(
-                        width: 243,
-                        height: 35,
+                        width: 243 * Width / 411,
+                        height: 35 * Height / 731,
                         decoration: boxDecoration(Colors.white),
                         child: TextFormField(
                           controller: _passwordController,
@@ -116,8 +122,8 @@ class SignIn extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                      left: 174,
-                      top: 138,
+                      left: 174 * Width / 411,
+                      top: 138 * Height / 731,
                       child: Text(
                         "SIGN IN",
                         style: TextStyle(
@@ -127,10 +133,10 @@ class SignIn extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                      left: 84,
-                      top: 202,
+                      left: 84 * Width / 411,
+                      top: 202 * Height / 731,
                       child: Container(
-                        width: 243,
+                        width: 243 * Width / 411,
                         height: 35,
                         child: TextFormField(
                           controller: _emailController,
@@ -146,22 +152,29 @@ class SignIn extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                      left: 84,
-                      top: 402,
+                      left: 84 * Width / 411,
+                      top: 402 * Height / 731,
                       child: Container(
                         child: FlatButton(
                           onPressed: () async {
                             if (_formKey.currentState.validate()) {
-                              await Provider.of<Auth>(context, listen: false).signInWithEmailAndPassword(_emailController.text,_passwordController.text)
+                              await Provider.of<Auth>(context, listen: false)
+                                  .signInWithEmailAndPassword(
+                                      _emailController.text,
+                                      _passwordController.text)
                                   .then((result) {
                                 print(result);
-                                if(result==null)
+                                if (result == null)
                                   print("error");
-                                else{
+                                else {
+                                  chek = false;
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (context) {
-                                        return Dashboard();
+                                        return Dashb(
+                                          email: result,
+                                          check: chek,
+                                        );
                                       },
                                     ),
                                   );
@@ -176,8 +189,8 @@ class SignIn extends StatelessWidget {
                             ),
                           ),
                         ),
-                        width: 243,
-                        height: 31,
+                        width: 243 * Width / 411,
+                        height: 31 * Height / 731,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30),
                           color: Color(0xff5fb1df),
@@ -185,24 +198,28 @@ class SignIn extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                      left: 84,
-                      top: 450,
+                      left: 84 * Width / 411,
+                      top: 450 * Height / 731,
                       child: Container(
-                        width: 243,
-                        height: 31,
-                        child: FlatButton(
+                        width: 243 * Width / 411,
+                        height: 31 * Height / 731,
+                        child: TextButton(
                           onPressed: () async {
                             await Provider.of<Auth>(context, listen: false)
                                 .signInWithGoogle()
                                 .then((result) {
                               print(result);
-                              if(result==null)
+                              if (result == null)
                                 print("error");
-                              else{
+                              else {
+                                chek = true;
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (context) {
-                                      return Dashboard();
+                                      return Dashb(
+                                        email: result,
+                                        check: chek,
+                                      );
                                     },
                                   ),
                                 );
@@ -223,8 +240,8 @@ class SignIn extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                      left: 95,
-                      top: 560,
+                      left: 95 * Width / 411,
+                      top: 560 * Height / 731,
                       child: Text(
                         "Don’t have an account?",
                         style: TextStyle(
@@ -234,8 +251,8 @@ class SignIn extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                      left: 225,
-                      top: 326,
+                      left: 225 * Width / 411,
+                      top: 326 * Height / 731,
                       child: FlatButton(
                         onPressed: () {
                           Navigator.push(
