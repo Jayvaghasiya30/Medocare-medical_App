@@ -113,8 +113,8 @@ class SignIn extends StatelessWidget {
                           controller: _passwordController,
                           decoration: inputdecor("Enter Password"),
                           validator: (String value) {
-                            if (value.isEmpty) {
-                              return 'Please enter some text';
+                            if (value.length < 6) {
+                              return 'Please enter atlaest 6 character';
                             }
                             return null;
                           },

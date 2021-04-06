@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:amoc/utilis/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:amoc/Services/auth_services.dart';
-import 'package:amoc/screens/verify.dart';
 import 'package:amoc/Dashboard/Dashmain.dart';
+import 'package:amoc/screens/verify_pass.dart';
 
 class Signup extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -117,11 +117,12 @@ class Signup extends StatelessWidget {
                         height: 40 * Height / 731,
                         decoration: boxDecoration(Colors.white),
                         child: TextFormField(
+                          obscureText: true,
                           controller: _passwordController,
                           decoration: inputdecor("Enter Password"),
                           validator: (String value) {
-                            if (value.isEmpty) {
-                              return 'Please enter some text';
+                            if (value.length < 6) {
+                              return 'Please enter atleast 6 character password';
                             }
                             return null;
                           },
@@ -184,37 +185,50 @@ class Signup extends StatelessWidget {
                         height: 35 * Height / 731,
                         child: FlatButton(
                           onPressed: () async {
-                            bool a = await sendOtp(_emailController.text);
-                            print(a);
-                            if (a) {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) {
-                                    return verifypage(
-                                        _emailController.text,
-                                        _passwordController.text,
-                                        _username.text);
-                                  },
-                                ),
-                              );
+                            if (_formKey.currentState.validate()) {
+                              await Provider.of<Auth>(context, listen: false)
+                                  .alreadyemailpresent(_emailController.text,
+                                      _passwordController.text)
+                                  .then((result) async {
+                                print(result);
+                                if (result == true) {
+                                  print('Email already exits');
+                                } else {
+                                  bool a = await sendOtp(_emailController.text);
+                                  print(a);
+                                  if (a) {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) {
+                                          return verifypage(
+                                              _emailController.text,
+                                              _passwordController.text,
+                                              _username.text);
+                                        },
+                                      ),
+                                    );
+                                  }
+                                }
+
+                                //
+                              });
+                              //   await Provider.of<Auth>(context, listen: false).register(_emailController.text,_passwordController.text)
+                              //       .then((result) {
+                              //     print(result);
+                              //     if(result==null)
+                              //       print("error");
+                              //     else{
+                              //       Navigator.of(context).push(
+                              //         MaterialPageRoute(
+                              //           builder: (context) {
+                              //             return Dashboard();
+                              //           },
+                              //         ),
+                              //       );
+                              //     }
+                              //   });
+                              // }
                             }
-                            // if (_formKey.currentState.validate()) {
-                            //   await Provider.of<Auth>(context, listen: false).register(_emailController.text,_passwordController.text)
-                            //       .then((result) {
-                            //     print(result);
-                            //     if(result==null)
-                            //       print("error");
-                            //     else{
-                            //       Navigator.of(context).push(
-                            //         MaterialPageRoute(
-                            //           builder: (context) {
-                            //             return Dashboard();
-                            //           },
-                            //         ),
-                            //       );
-                            //     }
-                            //   });
-                            // }
                           },
                           child: Text(
                             "Register",

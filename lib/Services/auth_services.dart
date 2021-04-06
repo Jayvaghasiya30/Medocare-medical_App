@@ -14,7 +14,6 @@ class Auth extends ChangeNotifier {
   String userEmail = null;
 
   Future<String> register(emaistring, passtring) async {
-
     final User user = (await _auth.createUserWithEmailAndPassword(
       email: emaistring,
       password: passtring,
@@ -28,6 +27,7 @@ class Auth extends ChangeNotifier {
     }
     return _userEmail;
   }
+
   Future<String> signInWithEmailAndPassword(emaistring, passtring) async {
     final User user = (await _auth.signInWithEmailAndPassword(
       email: emaistring,
@@ -69,20 +69,39 @@ class Auth extends ChangeNotifier {
     print("Signed Out");
     notifyListeners();
   }
+
   Future<void> signOutemail() async {
     await _auth.signOut();
     print("Signed Out");
     notifyListeners();
   }
+
+  Future<bool> alreadyemailpresent(email, password) async {
+    bool already;
+    try {
+      await _auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      already = false;
+    } catch (signUpError) {
+      if (signUpError == 'PlatformException') {
+        if (signUpError.code == 'ERROR_EMAIL_ALREADY_IN_USE') {
+          /// `foo@bar.com` has alread been registered.
+          already = true;
+        }
+      }
+      already = true;
+    }
+    return already;
+  }
 }
 
-Future<bool> sendOtp(email) async{
+Future<bool> sendOtp(email) async {
   EmailAuth.sessionName = "test";
   var res = await EmailAuth.sendOtp(receiverMail: email);
   return res;
 }
 
-bool verifyotp(email,otp){
+bool verifyotp(email, otp) {
   var res = EmailAuth.validate(receiverMail: email, userOTP: otp);
   return res;
 }
