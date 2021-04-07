@@ -117,6 +117,7 @@ class Signup extends StatelessWidget {
                         height: 40 * Height / 731,
                         decoration: boxDecoration(Colors.white),
                         child: TextFormField(
+                          obscuringCharacter: '*',
                           obscureText: true,
                           controller: _passwordController,
                           decoration: inputdecor("Enter Password"),
@@ -143,7 +144,12 @@ class Signup extends StatelessWidget {
                           validator: (String value) {
                             if (value.isEmpty) {
                               return 'Please enter some text';
+                            } else if (!RegExp(
+                                    r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+                                .hasMatch(_emailController.text)) {
+                              return 'Please Enter valid email';
                             }
+
                             return null;
                           },
                         ),
@@ -193,6 +199,7 @@ class Signup extends StatelessWidget {
                                 print(result);
                                 if (result == true) {
                                   print('Email already exits');
+                                  // show diagog box with the message this.
                                 } else {
                                   bool a = await sendOtp(_emailController.text);
                                   print(a);

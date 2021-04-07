@@ -110,6 +110,8 @@ class SignIn extends StatelessWidget {
                         height: 35 * Height / 731,
                         decoration: boxDecoration(Colors.white),
                         child: TextFormField(
+                          obscuringCharacter: '*',
+                          obscureText: true,
                           controller: _passwordController,
                           decoration: inputdecor("Enter Password"),
                           validator: (String value) {
@@ -144,7 +146,12 @@ class SignIn extends StatelessWidget {
                           validator: (String value) {
                             if (value.isEmpty) {
                               return 'Please enter some text';
+                            } else if (!RegExp(
+                                    r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+                                .hasMatch(_emailController.text)) {
+                              return 'Please Enter valid email';
                             }
+
                             return null;
                           },
                         ),
@@ -166,7 +173,15 @@ class SignIn extends StatelessWidget {
                                 print(result);
                                 if (result == null)
                                   print("error");
-                                else {
+                                else if (result ==
+                                    'no user found for that email') {
+                                  print('no user found for that email');
+                                  //add dialog box for this
+                                } else if (result ==
+                                    'wrong password for that user') {
+                                  //add dialog box for this message
+                                  print('wrong password for that user');
+                                } else {
                                   chek = false;
                                   Navigator.of(context).push(
                                     MaterialPageRoute(

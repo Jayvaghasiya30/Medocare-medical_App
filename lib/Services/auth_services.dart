@@ -29,18 +29,28 @@ class Auth extends ChangeNotifier {
   }
 
   Future<String> signInWithEmailAndPassword(emaistring, passtring) async {
-    final User user = (await _auth.signInWithEmailAndPassword(
-      email: emaistring,
-      password: passtring,
-    ))
-        .user;
-    if (user != null) {
-      _success = true;
-      _userEmail = user.email;
-    } else {
-      _success = true;
+    try {
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+          email: emaistring, password: passtring);
+      final User user = userCredential.user;
+      if (user != null) {
+        _success = true;
+        _userEmail = user.email;
+      } else {
+        _success = true;
+      }
+      return _userEmail;
+      // );
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        //print('No user found for that email.');
+        return 'no user found for that email';
+      } else if (e.code == 'wrong-password') {
+        //print('Wrong password provided for that user.');
+        return 'wrong password for that user';
+      }
     }
-    return _userEmail;
+    return null;
   }
 
   Future<String> signInWithGoogle() async {
@@ -79,16 +89,24 @@ class Auth extends ChangeNotifier {
   Future<bool> alreadyemailpresent(email, password) async {
     bool already;
     try {
+      // await _auth.fet
       await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
+      await _auth.currentUser.delete();
       already = false;
     } catch (signUpError) {
-      if (signUpError == 'PlatformException') {
-        if (signUpError.code == 'ERROR_EMAIL_ALREADY_IN_USE') {
-          /// `foo@bar.com` has alread been registered.
-          already = true;
-        }
+      //if (signUpError is PlatformException) {
+      print(signUpError.code);
+      //print(signUpError);
+      if (signUpError.code == 'email-already-in-use') {
+        /// `foo@bar.com` has alread been registered.
+        already = true;
       }
+      if (signUpError.code == 'invalid-email') {
+        already = true;
+      }
+
+      //}
       already = true;
     }
     return already;
