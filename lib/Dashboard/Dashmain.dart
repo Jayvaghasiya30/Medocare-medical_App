@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:amoc/screens/sigiin.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:amoc/screens/drawer.dart';
-
+import 'package:amoc/screens/commondieases.dart';
 
 class Dashboard extends StatefulWidget {
   Dashboard({this.email, this.check});
@@ -385,6 +385,17 @@ class Smallboxes extends StatelessWidget {
           // margin: EdgeInsets.only(left: 10),
           width: width,
           height: height,
+          child: TextButton(
+            onPressed: (){
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) {
+                    return CommonDiseases();
+                  },
+                ),
+              );
+            },
+          ),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             boxShadow: [

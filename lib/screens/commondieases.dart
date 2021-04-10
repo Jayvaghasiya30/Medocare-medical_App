@@ -10,7 +10,9 @@ class CommonDiseases extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pop(context);
+            },
             icon: Icon(
               Icons.arrow_back,
               color: Colors.white,
