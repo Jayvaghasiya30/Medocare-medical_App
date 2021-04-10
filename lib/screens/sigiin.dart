@@ -5,6 +5,7 @@ import 'package:amoc/utilis/constants.dart';
 import 'package:amoc/Services/auth_services.dart';
 import 'package:provider/provider.dart';
 import 'package:amoc/Dashboard/Dashmain.dart';
+import 'package:amoc/screens/sidebar.dart';
 
 class SignIn extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -186,7 +187,7 @@ class SignIn extends StatelessWidget {
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (context) {
-                                        return Dashb(
+                                        return Dashboard(
                                           email: result,
                                           check: chek,
                                         );
@@ -231,7 +232,7 @@ class SignIn extends StatelessWidget {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (context) {
-                                      return Dashb(
+                                      return Dashboard(
                                         email: result,
                                         check: chek,
                                       );

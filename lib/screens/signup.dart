@@ -7,6 +7,7 @@ import 'package:amoc/Dashboard/Dashmain.dart';
 import 'package:amoc/screens/verify_pass.dart';
 
 class Signup extends StatelessWidget {
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -270,7 +271,7 @@ class Signup extends StatelessWidget {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (context) {
-                                      return Dashb(
+                                      return Dashboard(
                                         email: result,
                                         check: chek,
                                       );

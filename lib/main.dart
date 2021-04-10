@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:amoc/screens/sigiin.dart';
 import 'Services/auth_services.dart';
 import 'package:amoc/screens/verify_pass.dart';
+import 'package:amoc/screens/commondieases.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
