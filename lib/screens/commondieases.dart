@@ -1,6 +1,11 @@
 //import 'dart:html';
 
 import 'package:flutter/material.dart';
+import 'package:amoc/Dashboard/Dashmain.dart';
+import 'package:amoc/utilis/constants.dart';
+import 'package:flutter/painting.dart';
+import 'package:amoc/screens/appoint.dart';
+import 'package:amoc/screens/Diseaseinfo.dart';
 
 class CommonDiseases extends StatelessWidget {
   @override
@@ -48,26 +53,60 @@ class CommonDiseases extends StatelessWidget {
                         colors: [Color(0xff71e1de), Color(0x0071e1de)],
                       ),
                     ),
-                    child: ListView(
+                    child: GridView.count(
+                      physics: ScrollPhysics(),
+                      shrinkWrap: true,
+                      // padding: EdgeInsets.only(bottom: 30,left: 30),
+                      crossAxisCount: 2,
                       children: [
-                        // TextField(
-                        //   decoration: InputDecoration(
-                        //     border:
-                        //   ),),
-                        diseaseContainer(),
-                        diseaseContainer(),
-                        diseaseContainer(),
-                        diseaseContainer(),
-                        diseaseContainer(),
-                        diseaseContainer(),
-                        diseaseContainer(),
-                        diseaseContainer(),
-                        diseaseContainer(),
-                        diseaseContainer(),
-                        diseaseContainer(),
-                        diseaseContainer(),
+
+                        ...Diss.map(
+                              (i) => Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Padding(padding: EdgeInsets.only(top: 20)),
+
+                              diseaseContainer(
+                                width: 120,
+                                height: 110,
+                                mssg: i,
+                              ),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
+                    // ListView(
+                    //   children: [
+                    //     Padding(padding: EdgeInsets.only(top: 20)),
+                    //     ...Diss.map(
+                    //       (i) => Column(
+                    //         mainAxisSize: MainAxisSize.min,
+                    //         children: [
+                    //           diseaseContainer(i),
+                    //         ],
+                    //       ),
+                    //     ),
+                    //   ],
+                    //   // children: [
+                    //   //   // TextField(
+                    //   //   //   decoration: InputDecoration(
+                    //   //   //     border:
+                    //   //   //   ),),
+                    //   //   diseaseContainer(),
+                    //   //   diseaseContainer(),
+                    //   //   diseaseContainer(),
+                    //   //   diseaseContainer(),
+                    //   //   diseaseContainer(),
+                    //   //   diseaseContainer(),
+                    //   //   diseaseContainer(),
+                    //   //   diseaseContainer(),
+                    //   //   diseaseContainer(),
+                    //   //   diseaseContainer(),
+                    //   //   diseaseContainer(),
+                    //   //   diseaseContainer(),
+                    //   // ],
+                    // ),
                   ),
                 ),
               ),
@@ -80,6 +119,10 @@ class CommonDiseases extends StatelessWidget {
 }
 
 class diseaseContainer extends StatelessWidget {
+  diseaseContainer({this.mssg, this.width, this.height});
+  final String mssg;
+  final double width;
+  final double height;
   @override
   Widget build(BuildContext context) {
     double Width = MediaQuery.of(context).size.width / 411;
@@ -87,8 +130,8 @@ class diseaseContainer extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(
           left: 25 * Width, right: 20 * Width, bottom: 25 * Height),
-      width: 371 * Width,
-      height: 58 * Height,
+      width: width * Width,
+      height: height * Height,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
@@ -106,13 +149,23 @@ class diseaseContainer extends StatelessWidget {
         color: Color(0xffb9f6fc),
       ),
       child: TextButton(
-        onPressed: () {},
+        onPressed: (){
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) {
+                return DiseaseInfo(
+                  disname: mssg,
+                );
+              },
+            ),
+          );
+        },
         child: Center(
           child: Text(
-            'get disease from database',
+            mssg,
             style: TextStyle(
               color: Colors.black,
-              fontSize: 24,
+              fontSize: 18,
               fontFamily: "Raleway",
               fontWeight: FontWeight.w600,
             ),

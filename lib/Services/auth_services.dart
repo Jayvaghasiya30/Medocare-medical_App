@@ -4,17 +4,46 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:email_auth/email_auth.dart';
+import 'dart:async';
 
 class Auth extends ChangeNotifier {
   bool _success;
   String _userEmail;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  final aath = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
   String user1 = null;
   String userEmail = null;
+  //FirebaseUser user;
+  StreamSubscription userAuthSub;
+  User user;
+
+  Future<dynamic> Authprovider() async {
+    userAuthSub = FirebaseAuth.instance.authStateChanges().listen((newUser) {
+      print('AuthProvider - FirebaseAuth - onAuthStateChanged - $newUser');
+      user = newUser;
+      notifyListeners();
+    }, onError: (e) {
+      print('AuthProvider - FirebaseAuth - onAuthStateChanged - $e');
+    });
+    return await auth.currentUser;
+
+  }
+  @override
+  void dispose() {
+    if (userAuthSub != null) {
+      userAuthSub.cancel();
+      userAuthSub = null;
+    }
+    super.dispose();
+  }
+  bool get isAuthenticated {
+    return user != null;
+  }
 
   Future<String> register(emaistring, passtring) async {
-    final User user = (await _auth.createUserWithEmailAndPassword(
+    final User user = (await auth.createUserWithEmailAndPassword(
       email: emaistring,
       password: passtring,
     ))
@@ -25,12 +54,13 @@ class Auth extends ChangeNotifier {
     } else {
       _success = true;
     }
+    notifyListeners();
     return _userEmail;
   }
 
   Future<String> signInWithEmailAndPassword(emaistring, passtring) async {
     try {
-      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+      UserCredential userCredential = await auth.signInWithEmailAndPassword(
           email: emaistring, password: passtring);
       final User user = userCredential.user;
       if (user != null) {
@@ -50,6 +80,7 @@ class Auth extends ChangeNotifier {
         return 'wrong password for that user';
       }
     }
+    notifyListeners();
     return null;
   }
 
@@ -64,10 +95,10 @@ class Auth extends ChangeNotifier {
     );
 
     final UserCredential authResult =
-        await _auth.signInWithCredential(credential);
+        await auth.signInWithCredential(credential);
     final User user = authResult.user;
     // print('$user');
-    final user12 = await _auth.currentUser;
+    final user12 = await auth.currentUser;
     user1 = user12.displayName.toString();
     userEmail = user12.email.toString();
     notifyListeners();
@@ -81,7 +112,7 @@ class Auth extends ChangeNotifier {
   }
 
   Future<void> signOutemail() async {
-    await _auth.signOut();
+    await auth.signOut();
     print("Signed Out");
     notifyListeners();
   }
@@ -90,9 +121,9 @@ class Auth extends ChangeNotifier {
     bool already;
     try {
       // await _auth.fet
-      await _auth.createUserWithEmailAndPassword(
+      await auth.createUserWithEmailAndPassword(
           email: email, password: password);
-      await _auth.currentUser.delete();
+      await auth.currentUser.delete();
       already = false;
     } catch (signUpError) {
       //if (signUpError is PlatformException) {
@@ -109,6 +140,7 @@ class Auth extends ChangeNotifier {
       //}
       already = true;
     }
+    notifyListeners();
     return already;
   }
 }
@@ -116,6 +148,7 @@ class Auth extends ChangeNotifier {
 Future<bool> sendOtp(email) async {
   EmailAuth.sessionName = "test";
   var res = await EmailAuth.sendOtp(receiverMail: email);
+
   return res;
 }
 

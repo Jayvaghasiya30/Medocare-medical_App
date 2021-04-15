@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+List Diss = [];
+int a=14;
 class textbox extends StatelessWidget {
   const textbox(this.str) ;
   final str ;

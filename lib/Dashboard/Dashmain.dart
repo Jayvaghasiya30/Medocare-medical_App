@@ -5,18 +5,20 @@ import 'package:amoc/screens/sigiin.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:amoc/screens/drawer.dart';
 import 'package:amoc/screens/commondieases.dart';
+import 'package:amoc/utilis/constants.dart';
+import 'package:amoc/main.dart';
 
 class Dashboard extends StatefulWidget {
   Dashboard({this.email, this.check});
   final email;
   final check;
   final Diseases = [
-    'Asthma',
-    'Common Flu',
-    'Conjunctivitis',
-    'Depression',
-    'Diarrhoea',
-    'See all \n Dieaases',
+    // 'Asthma',
+    // 'Common Flu',
+    // 'Conjunctivitis',
+    // 'Depression',
+    // 'Diarrhoea',
+    // 'See all \n Dieaases',
   ];
   final Secialist = ['Pediatrician', 'Neurologist', 'See all\nCategories'];
   final LabATests = [
@@ -28,16 +30,20 @@ class Dashboard extends StatefulWidget {
     'See all \n Tests'
   ];
   final Hospitals = ['ABC', 'XYZ', 'See all Top\n Hospitals'];
+  bool fl= false;
 
   @override
   _DashboardState createState() => _DashboardState();
 }
 
 class _DashboardState extends State<Dashboard> {
+
   @override
   void initState() {
     read(widget.email);
+    //print(Auth().Authprovider());
     readinfos();
+
   }
 
   void read(em) {
@@ -48,11 +54,35 @@ class _DashboardState extends State<Dashboard> {
   }
 
   void readinfos() {
+    Diss = [];
     final firestoreInstance = FirebaseFirestore.instance;
     firestoreInstance.collection("info_disease").get().then((querySnapshot) {
       querySnapshot.docs.forEach((result) {
         //print(result.data());
-        widget.Diseases.add(result.id.toString());
+       setState(() {
+         if(widget.Diseases.length <5){
+
+           widget.Diseases.add(result.id.toString());
+           if(widget.Diseases.length==5){
+             widget.Diseases.add("See all \n Dieaases");
+             //Diss.add("See all \n Dieaases");
+             widget.fl = true;
+           }
+         }
+        var a= [
+           ['image path','image name'],
+           [],
+
+         ];
+
+         Diss.add(result.id.toString());
+         // if(widget.fl==true)
+         //   {
+         //     widget.Diseases.add("See all \n Dieaases");
+         //     widget.fl=false;
+         //   }
+
+       });
         print(widget.Diseases);
       });
     });
@@ -70,6 +100,38 @@ class _DashboardState extends State<Dashboard> {
             fontSize: 18,
           ),
         ),
+        actions: [
+          TextButton(
+            onPressed: () async {
+              await Provider.of<Auth>(context,listen: false).signOutGoogle();
+              await Provider.of<Auth>(context, listen: false)
+                  .signOutemail().then((value) {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return SignIn();
+                    },
+                  ),
+                );
+              }
+              );
+              //Navigator.pop(context);
+
+            },
+            child: Center(
+              child: Text(
+                'Logout',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 12,
+                  fontFamily: "Raleway",
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ),
+        ],
+
         // leading: Icon(
         //   Icons.menu,
         //   color: Colors.black,
