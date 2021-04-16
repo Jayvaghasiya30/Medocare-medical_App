@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:amoc/screens/disease_info_parts/overview.dart';
+import 'package:amoc/screens/disease_info_parts/symptoms.dart';
+import 'package:amoc/screens/disease_info_parts/treatment.dart';
 
 class DiseaseInfo extends StatelessWidget {
   DiseaseInfo({this.disname});
@@ -112,8 +115,8 @@ class DiseaseInfo extends StatelessWidget {
           body: TabBarView(
             children: [
               Overview(),
-              Overview(),
-              Overview(),
+              Symptoms(),
+              Treatment(),
               Overview(),
             ],
           )),
@@ -123,79 +126,77 @@ class DiseaseInfo extends StatelessWidget {
   }
 }
 
-class Overview extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    double Width = MediaQuery.of(context).size.width;
-    double Height = MediaQuery.of(context).size.height;
-    return Container(
-      width: 411 * Width,
-      height: 731 * Height,
-      color: Color(0xff5fb1df),
-      child: Container(
-        width: 411 * Width,
-        height: 637 * Height,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(0),
-            topRight: Radius.circular(0),
-            bottomLeft: Radius.circular(500),
-            bottomRight: Radius.circular(0),
-          ),
-          gradient: LinearGradient(
-            begin: Alignment.bottomLeft,
-            end: Alignment.topRight,
-            colors: [Color(0xff71e1de), Color(0x0071e1de)],
-          ),
-        ),
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(top: 30),
-            ),
-            Container(
-              width: 340,
-              height: 420,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Color(0x3f000000),
-                    blurRadius: 4,
-                    offset: Offset(0, 4),
-                  ),
-                ],
-                color: Color(0xffb9f6fc),
-              ),
-              child: Text('jhefgkj'),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 30),
-            ),
-            Container(
-              width: 200,
-              height: 40,
-              child: TextButton(
-                child: Center(
-                  child: Text(
-                    'Consult Now!',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontFamily: "Raleway",
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
-                color: Colors.red
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+// class Overview extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     double Width = MediaQuery.of(context).size.width;
+//     double Height = MediaQuery.of(context).size.height;
+//     return Container(
+//       width: 411 * Width,
+//       height: 731 * Height,
+//       color: Color(0xff5fb1df),
+//       child: Container(
+//         width: 411 * Width,
+//         height: 637 * Height,
+//         decoration: BoxDecoration(
+//           borderRadius: BorderRadius.only(
+//             topLeft: Radius.circular(0),
+//             topRight: Radius.circular(0),
+//             bottomLeft: Radius.circular(500),
+//             bottomRight: Radius.circular(0),
+//           ),
+//           gradient: LinearGradient(
+//             begin: Alignment.bottomLeft,
+//             end: Alignment.topRight,
+//             colors: [Color(0xff71e1de), Color(0x0071e1de)],
+//           ),
+//         ),
+//         child: Column(
+//           children: [
+//             Padding(
+//               padding: EdgeInsets.only(top: 30 * Height),
+//             ),
+//             Container(
+//               width: 340 * Width,
+//               height: 420 * Height,
+//               decoration: BoxDecoration(
+//                 borderRadius: BorderRadius.circular(20),
+//                 boxShadow: [
+//                   BoxShadow(
+//                     color: Color(0x3f000000),
+//                     blurRadius: 4,
+//                     offset: Offset(0, 4),
+//                   ),
+//                 ],
+//                 color: Color(0xffb9f6fc),
+//               ),
+//               child: Text('jhefgkj'),
+//             ),
+//             Padding(
+//               padding: EdgeInsets.only(top: 30),
+//             ),
+//             Container(
+//               width: 200 * Width,
+//               height: 40,
+//               child: TextButton(
+//                 child: Center(
+//                   child: Text(
+//                     'Consult Now!',
+//                     style: TextStyle(
+//                       color: Colors.black,
+//                       fontSize: 20,
+//                       fontFamily: "Raleway",
+//                       fontWeight: FontWeight.w600,
+//                     ),
+//                   ),
+//                 ),
+//               ),
+//               decoration: BoxDecoration(
+//                   borderRadius: BorderRadius.circular(30), color: Colors.red),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }

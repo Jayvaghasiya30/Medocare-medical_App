@@ -59,13 +59,11 @@ class CommonDiseases extends StatelessWidget {
                       // padding: EdgeInsets.only(bottom: 30,left: 30),
                       crossAxisCount: 2,
                       children: [
-
                         ...Diss.map(
-                              (i) => Column(
+                          (i) => Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Padding(padding: EdgeInsets.only(top: 20)),
-
                               diseaseContainer(
                                 width: 120,
                                 height: 110,
@@ -140,16 +138,11 @@ class diseaseContainer extends StatelessWidget {
             blurRadius: 4,
             offset: Offset(0, 4),
           ),
-          BoxShadow(
-            color: Color(0x3f000000),
-            blurRadius: 4,
-            offset: Offset(0, 4),
-          ),
         ],
         color: Color(0xffb9f6fc),
       ),
       child: TextButton(
-        onPressed: (){
+        onPressed: () {
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) {
