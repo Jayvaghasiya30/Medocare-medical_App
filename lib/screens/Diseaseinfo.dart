@@ -114,7 +114,7 @@ class DiseaseInfo extends StatelessWidget {
           //),
           body: TabBarView(
             children: [
-              Overview(),
+              Overview(disname: disname,),
               Symptoms(),
               Treatment(),
               Overview(),

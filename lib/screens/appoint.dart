@@ -1,28 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:amoc/utilis/constants.dart';
+import 'package:flutter/painting.dart';
+import 'package:amoc/screens/Finalappoint.dart';
+
+
 class Appoint extends StatefulWidget {
-  Appoint(this.disname);
+  Appoint({this.disname});
   final disname;
+  var di=[];
+  List<Map<String, dynamic>> users;
   @override
   _AppointState createState() => _AppointState();
 }
-
 
 class _AppointState extends State<Appoint> {
   void initState() {
     read(widget.disname);
     readinfos();
-
-
   }
+
 
   void read(em) {
     final firestoreInstance = FirebaseFirestore.instance;
     firestoreInstance.collection("info_disease").doc(em).get().then((value) {
-      print(value.data()['Specialists']);
+      print(value.get('Treatments'));
+      setState(() {
+        widget.di = value.get("Treatments");
+      });
+      print(widget.di);
     });
   }
+
   void readinfos() {
     print("Erro");
     final firestoreInstance = FirebaseFirestore.instance;
@@ -30,41 +39,44 @@ class _AppointState extends State<Appoint> {
         .collection('doctors_all')
         .where('Specialist', isEqualTo: 'pediatrician')
         .get()
-        .then((querySnapshot){
-      querySnapshot.docs.forEach((result){
-        if(result!=null)
-        {print(result.data()['Name']);
-        print(result.data()['Current Hospital']);}
-        else
+        .then((querySnapshot) {
+      querySnapshot.docs.forEach((result) {
+        if (result != null) {
+          print(result.data()['Name']);
+          print(result.data()['Current Hospital']);
+        } else
           print("Erro");
-
       });
-
     });
-
   }
-  void insert(){
+
+  void insert() {
     final firestoreInstance = FirebaseFirestore.instance;
     // int a=1;
     print(a);
-    if(a>=14){
-    firestoreInstance
-        .collection("info_disease")
-        .doc("Urinary Incontinence")
-        .set({
-      // "Current Hospital": "Hospital A",
-      // "Name": "Dr. Mahesh Pandey ",
-      // "Qualifications": "M.B.B.S,M.S.,M.Ch.",
-      "Specialist":[ "Gynecologist "],
+    if (a >= 14) {
+      firestoreInstance
+          .collection("info_disease")
+          .doc("Urinary Incontinence")
+          .set({
+        // "Current Hospital": "Hospital A",
+        // "Name": "Dr. Mahesh Pandey ",
+        // "Qualifications": "M.B.B.S,M.S.,M.Ch.",
+        "Specialist": ["Gynecologist "],
+        "Treatments" : {
+          "Medications" : 'Bronchodilator',
+          'Self-care' : 'Quitting smoking'
+        }
 
-    }).then((_) {
-      print("data instered success!");
-      setState(() {
-        a++;
+      }).then((_) {
+        print("data instered success!");
+        setState(() {
+          a++;
+        });
       });
-    });
     }
   }
+
   @override
   Widget build(BuildContext context) {
     double Width = MediaQuery.of(context).size.width / 411;
@@ -80,7 +92,7 @@ class _AppointState extends State<Appoint> {
               color: Colors.white,
             )),
         title: Text(
-          'Make Appointments',
+          'Make Appointment',
           style: TextStyle(color: Colors.black),
         ),
       ),
@@ -112,29 +124,133 @@ class _AppointState extends State<Appoint> {
                   colors: [Color(0xff71e1de), Color(0x0071e1de)],
                 ),
               ),
-              child: TextButton(
-                onPressed: (){
-                  readinfos();
-                  //insert();
-                  //Navigator.of(context).push(
-                  //   MaterialPageRoute(
-                  //     builder: (context) {
-                  //       return Appoint();
-                  //     },
+              child: ListView(
+                children: [
+                  Padding(padding: EdgeInsets.only(top: 20)),
+                  // ...Diss.map(
+                  //   (i) => Column(
+                  //     mainAxisSize: MainAxisSize.min,
+                  //     children: [
+                  //       diseaseContainer(i),
+                  //     ],
                   //   ),
-                  // );
-                },
-                child: Center(
-                  child: Text(
-                    widget.disname,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 24,
-                      fontFamily: "Raleway",
-                      fontWeight: FontWeight.w600,
+                  // ),
+                  Container(
+                    margin: EdgeInsets.only(
+                        left: 25 * Width,
+                        right: 20 * Width,
+                        bottom: 25 * Height),
+                    width: 320 * Width,
+                    height: 180 * Height,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color(0x3f000000),
+                          blurRadius: 4,
+                          offset: Offset(0, 4),
+                        ),
+                        BoxShadow(
+                          color: Color(0x3f000000),
+                          blurRadius: 4,
+                          offset: Offset(0, 4),
+                        ),
+                      ],
+                      color: Color(0xffb9f6fc),
                     ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.only(top: 10, left: 20),
+                          child: Text(
+                            'Name : ' + 'Dr.Jay',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontFamily: "Raleway",
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                        //Padding(padding: EdgeInsets.only(top: 100,left: 20),),
+                        Container(
+                          //padding: EdgeInsets.only(top: 10,left: 20),
+                          margin: EdgeInsets.only(
+                              top: 100 * Height, left: 200 * Width),
+                          width: 150 * Width,
+                          height: 40 * Height,
+                          child: TextButton(
+                            onPressed: () {
+                              //  insert();
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return AddAppointment(disname: widget.disname);
+                                  },
+                                ),
+                              );
+                            },
+                            child: Text(
+                              'Consult Now!',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 20,
+                                fontFamily: "Raleway",
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              color: Colors.red),
+                        ),
+                      ],
+                    ),
+                    // TextButton(
+                    //   onPressed: (){
+                    //     // Navigator.of(context).push(
+                    //     //   MaterialPageRoute(
+                    //     //     builder: (context) {
+                    //     //       return DiseaseInfo(
+                    //     //         disname: mssg,
+                    //     //       );
+                    //     //     },
+                    //     //   ),
+                    //     // );
+                    //   },
+                    //   child: Center(
+                    //     child: Text(
+                    //       'doctor',
+                    //       style: TextStyle(
+                    //         color: Colors.black,
+                    //         fontSize: 18,
+                    //         fontFamily: "Raleway",
+                    //         fontWeight: FontWeight.w600,
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                   ),
-                ),
+                ],
+                // children: [
+                //   // TextField(
+                //   //   decoration: InputDecoration(
+                //   //     border:
+                //   //   ),),
+                //   diseaseContainer(),
+                //   diseaseContainer(),
+                //   diseaseContainer(),
+                //   diseaseContainer(),
+                //   diseaseContainer(),
+                //   diseaseContainer(),
+                //   diseaseContainer(),
+                //   diseaseContainer(),
+                //   diseaseContainer(),
+                //   diseaseContainer(),
+                //   diseaseContainer(),
+                //   diseaseContainer(),
+                // ],
               ),
             ),
           ],
@@ -143,3 +259,27 @@ class _AppointState extends State<Appoint> {
     );
   }
 }
+// TextButton(
+// onPressed: (){
+// readinfos();
+// //insert();
+// //Navigator.of(context).push(
+// //   MaterialPageRoute(
+// //     builder: (context) {
+// //       return Appoint();
+// //     },
+// //   ),
+// // );
+// },
+// child: Center(
+// child: Text(
+// widget.disname,
+// style: TextStyle(
+// color: Colors.black,
+// fontSize: 24,
+// fontFamily: "Raleway",
+// fontWeight: FontWeight.w600,
+// ),
+// ),
+// ),
+// ),

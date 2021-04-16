@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 //import 'package:amoc/Services/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/rendering.dart';
+import 'package:amoc/screens/appoint.dart';
 
 //Crud crudObj = Crud();
 
 class Overview extends StatefulWidget {
+  Overview({this.disname});
+  final String disname;
   @override
   _OverviewState createState() => _OverviewState();
 }
@@ -121,7 +124,15 @@ class _OverviewState extends State<Overview> {
                 color: Color(0xffb9f6fc),
               ),
               child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return Appoint(disname: widget.disname);
+                      },
+                    ),
+                  );
+                },
                 child: Center(
                   child: Text(
                     "Make an Appointment now!",
