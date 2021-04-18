@@ -1,3 +1,4 @@
+import 'package:amoc/screens/hospital_info.dart';
 import 'package:flutter/material.dart';
 import 'package:amoc/Services/auth_services.dart';
 import 'package:provider/provider.dart';
@@ -7,6 +8,9 @@ import 'package:amoc/screens/drawer.dart';
 import 'package:amoc/screens/commondieases.dart';
 import 'package:amoc/utilis/constants.dart';
 import 'package:amoc/main.dart';
+import 'package:amoc/screens/specilaist.dart';
+import 'package:amoc/screens/hospital.dart';
+import 'package:amoc/screens/specialist_info.dart';
 
 class Dashboard extends StatefulWidget {
   Dashboard({this.email, this.check});
@@ -20,7 +24,13 @@ class Dashboard extends StatefulWidget {
     // 'Diarrhoea',
     // 'See all \n Dieaases',
   ];
-  final Secialist = ['Pediatrician', 'Neurologist', 'See all\nCategories'];
+  final Secialist = [
+    'Pediatrician',
+    'Neurologist',
+    'Orthopedist',
+    'Dentist',
+    'Physician'
+  ];
   final LabATests = [
     'MRI',
     'CT SCAN',
@@ -29,21 +39,20 @@ class Dashboard extends StatefulWidget {
     'THYROID',
     'See all \n Tests'
   ];
-  final Hospitals = ['ABC', 'XYZ', 'See all Top\n Hospitals'];
-  bool fl= false;
+  final Hospitals = ['Hospital A', 'Hospital B'];
+  final lasthospital = "See all Top\n Hospitals";
+  bool fl = false;
 
   @override
   _DashboardState createState() => _DashboardState();
 }
 
 class _DashboardState extends State<Dashboard> {
-
   @override
   void initState() {
     read(widget.email);
     //print(Auth().Authprovider());
     readinfos();
-
   }
 
   void read(em) {
@@ -59,30 +68,27 @@ class _DashboardState extends State<Dashboard> {
     firestoreInstance.collection("info_disease").get().then((querySnapshot) {
       querySnapshot.docs.forEach((result) {
         //print(result.data());
-       setState(() {
-         if(widget.Diseases.length <5){
+        setState(() {
+          if (widget.Diseases.length < 5) {
+            widget.Diseases.add(result.id.toString());
+            if (widget.Diseases.length == 5) {
+              widget.Diseases.add("See all \n Dieaases");
+              //Diss.add("See all \n Dieaases");
+              widget.fl = true;
+            }
+          }
+          // var a = [
+          //   ['image path', 'image name'],
+          //   [],
+          // ];
 
-           widget.Diseases.add(result.id.toString());
-           if(widget.Diseases.length==5){
-             widget.Diseases.add("See all \n Dieaases");
-             //Diss.add("See all \n Dieaases");
-             widget.fl = true;
-           }
-         }
-        var a= [
-           ['image path','image name'],
-           [],
-
-         ];
-
-         Diss.add(result.id.toString());
-         // if(widget.fl==true)
-         //   {
-         //     widget.Diseases.add("See all \n Dieaases");
-         //     widget.fl=false;
-         //   }
-
-       });
+          Diss.add(result.id.toString());
+          // if(widget.fl==true)
+          //   {
+          //     widget.Diseases.add("See all \n Dieaases");
+          //     widget.fl=false;
+          //   }
+        });
         print(widget.Diseases);
       });
     });
@@ -103,9 +109,10 @@ class _DashboardState extends State<Dashboard> {
         actions: [
           TextButton(
             onPressed: () async {
-              await Provider.of<Auth>(context,listen: false).signOutGoogle();
+              await Provider.of<Auth>(context, listen: false).signOutGoogle();
               await Provider.of<Auth>(context, listen: false)
-                  .signOutemail().then((value) {
+                  .signOutemail()
+                  .then((value) {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) {
@@ -113,10 +120,8 @@ class _DashboardState extends State<Dashboard> {
                     },
                   ),
                 );
-              }
-              );
+              });
               //Navigator.pop(context);
-
             },
             child: Center(
               child: Text(
@@ -208,13 +213,25 @@ class _DashboardState extends State<Dashboard> {
                             crossAxisCount: 3,
                             children: [
                               ...widget.Diseases.map(
-                                    (i) => Column(
+                                (i) => Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Smallboxes(
                                       width: 55,
                                       height: 55,
                                       mssg: i,
+                                      onPressed: () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) {
+                                              return
+                                                  //Hospital();
+                                                  //Specialist();
+                                                  CommonDiseases();
+                                            },
+                                          ),
+                                        );
+                                      },
                                     ),
                                   ],
                                 ),
@@ -247,16 +264,46 @@ class _DashboardState extends State<Dashboard> {
                             crossAxisCount: 3,
                             children: [
                               ...widget.Secialist.map(
-                                    (i) => Column(
+                                (i) => Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Smallboxes(
                                       width: 55,
                                       height: 55,
                                       mssg: i,
+                                      onPressed: () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) {
+                                              return SpecilaistInfo(disname: i);
+                                              //Hospital();
+                                              //Specialist();
+                                              //CommonDiseases();
+                                            },
+                                          ),
+                                        );
+                                      },
                                     ),
                                   ],
                                 ),
+                              ),
+                              Smallboxes(
+                                width: 55,
+                                height: 55,
+                                mssg: "See all \n Categories",
+                                onPressed: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return
+                                            //SpecilaistInfo(disname: ,)
+                                            //Hospital();
+                                            Specialist();
+                                        //CommonDiseases();
+                                      },
+                                    ),
+                                  );
+                                },
                               ),
                             ],
                           ),
@@ -282,7 +329,7 @@ class _DashboardState extends State<Dashboard> {
                             crossAxisCount: 3,
                             children: [
                               ...widget.LabATests.map(
-                                    (i) => Column(
+                                (i) => Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Smallboxes(
@@ -317,17 +364,46 @@ class _DashboardState extends State<Dashboard> {
                             crossAxisCount: 3,
                             children: [
                               ...widget.Hospitals.map(
-                                    (i) => Column(
+                                (i) => Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Smallboxes(
                                       width: 55,
                                       height: 55,
                                       mssg: i,
+                                      onPressed: () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) {
+                                              return HospitalInfo(
+                                                  hospitalname: i);
+                                              //Specialist();
+                                              //CommonDiseases();
+                                            },
+                                          ),
+                                        );
+                                      },
                                     ),
                                   ],
                                 ),
                               ),
+                              Smallboxes(
+                                width: 55,
+                                height: 55,
+                                mssg: widget.lasthospital,
+                                onPressed: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return Hospital();
+                                        //Specialist();
+                                        //CommonDiseases();
+                                      },
+                                    ),
+                                  );
+                                },
+                              ),
+                              //),
                             ],
                           ),
                         ),
@@ -373,11 +449,9 @@ class _DashboardState extends State<Dashboard> {
                       ],
                     ),
                   ),
-
                 ),
               ),
             ),
-
           ],
         ),
       ),
@@ -385,9 +459,7 @@ class _DashboardState extends State<Dashboard> {
         width: 411,
         height: 80,
         decoration: BoxDecoration(
-
           color: Color(0xff5eb0df),
-
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.only(
@@ -435,10 +507,11 @@ class _DashboardState extends State<Dashboard> {
 }
 
 class Smallboxes extends StatelessWidget {
-  Smallboxes({this.width, this.height, this.mssg});
+  Smallboxes({this.width, this.height, this.mssg, this.onPressed});
   final double width;
   final double height;
   final mssg;
+  final Function onPressed;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -448,24 +521,22 @@ class Smallboxes extends StatelessWidget {
           width: width,
           height: height,
           child: TextButton(
-            onPressed: (){
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) {
-                    return CommonDiseases();
-                  },
-                ),
-              );
-            },
+            onPressed: onPressed,
+            //     () {
+            //   Navigator.of(context).push(
+            //     MaterialPageRoute(
+            //       builder: (context) {
+            //         return Hospital();
+            //         //Specialist();
+            //         //CommonDiseases();
+            //       },
+            //     ),
+            //   );
+            // },
           ),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             boxShadow: [
-              BoxShadow(
-                color: Color(0x3f000000),
-                blurRadius: 4,
-                offset: Offset(0, 4),
-              ),
               BoxShadow(
                 color: Color(0x3f000000),
                 blurRadius: 4,

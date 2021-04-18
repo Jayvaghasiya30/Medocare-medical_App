@@ -4,11 +4,10 @@ import 'package:amoc/utilis/constants.dart';
 import 'package:flutter/painting.dart';
 import 'package:amoc/screens/Finalappoint.dart';
 
-
 class Appoint extends StatefulWidget {
   Appoint({this.disname});
   final disname;
-  var di=[];
+  var di = [];
   List<Map<String, dynamic>> users;
   @override
   _AppointState createState() => _AppointState();
@@ -18,8 +17,8 @@ class _AppointState extends State<Appoint> {
   void initState() {
     read(widget.disname);
     readinfos();
+    // readinfoss();
   }
-
 
   void read(em) {
     final firestoreInstance = FirebaseFirestore.instance;
@@ -63,11 +62,10 @@ class _AppointState extends State<Appoint> {
         // "Name": "Dr. Mahesh Pandey ",
         // "Qualifications": "M.B.B.S,M.S.,M.Ch.",
         "Specialist": ["Gynecologist "],
-        "Treatments" : {
-          "Medications" : 'Bronchodilator',
-          'Self-care' : 'Quitting smoking'
+        "Treatments": {
+          "Medications": 'Bronchodilator',
+          'Self-care': 'Quitting smoking'
         }
-
       }).then((_) {
         print("data instered success!");
         setState(() {
@@ -186,7 +184,8 @@ class _AppointState extends State<Appoint> {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) {
-                                    return AddAppointment(disname: widget.disname);
+                                    return AddAppointment(
+                                        disname: widget.disname);
                                   },
                                 ),
                               );

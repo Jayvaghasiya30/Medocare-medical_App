@@ -1,13 +1,14 @@
+import 'package:amoc/screens/hospital_info_parts/hospital_doctors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:amoc/screens/disease_info_parts/overview.dart';
 import 'package:amoc/screens/disease_info_parts/symptoms.dart';
 import 'package:amoc/screens/disease_info_parts/treatment.dart';
-import 'package:amoc/screens/disease_info_parts/disease_specialist.dart';
+import 'package:amoc/screens/specialist_info_parts/doctors_spec.dart';
 
-class DiseaseInfo extends StatelessWidget {
-  DiseaseInfo({this.disname});
-  final String disname;
+class HospitalInfo extends StatelessWidget {
+  HospitalInfo({this.hospitalname});
+  final String hospitalname;
   @override
   Widget build(BuildContext context) {
     double Width = MediaQuery.of(context).size.width;
@@ -19,12 +20,12 @@ class DiseaseInfo extends StatelessWidget {
     double b = (Width - _safeAreaHorizontal) / 100;
     double v = (Height - _safeAreaVertical) / 100;
     return DefaultTabController(
-      length: 4,
+      length: 2,
       child: Scaffold(
           appBar: AppBar(
             toolbarHeight: 120,
             title: Text(
-              disname,
+              hospitalname,
               //if(disname==null){}
               style: TextStyle(
                 color: Colors.white,
@@ -75,31 +76,7 @@ class DiseaseInfo extends StatelessWidget {
                   ),
                   Tab(
                     child: Text(
-                      'Symptoms',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: b * 4.8,
-                        fontFamily: "Raleway",
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                  Tab(
-                    child: Text(
-                      'Treatment',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: b * 4.8,
-                        fontFamily: "Raleway",
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                  Tab(
-                    child: Text(
-                      'Specialist',
+                      'Doctors',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.black,
@@ -116,11 +93,12 @@ class DiseaseInfo extends StatelessWidget {
           body: TabBarView(
             children: [
               Overview(
-                disname: disname,
+                disname: "Asthma",
+                //disname,
               ),
-              Symptoms(),
-              Treatment(),
-              DiseaseSpecialist(disname: disname),
+              HospitalDoctors(
+                hospitalname: hospitalname,
+              )
             ],
           )),
     );

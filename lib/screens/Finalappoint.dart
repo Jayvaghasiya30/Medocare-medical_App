@@ -4,7 +4,6 @@ import 'package:amoc/utilis/constants.dart';
 import 'package:flutter/painting.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-
 String _chosenValue;
 
 class AddAppointment extends StatefulWidget {
@@ -103,220 +102,217 @@ class _AddAppointmentState extends State<AddAppointment> {
                   colors: [Color(0xff71e1de), Color(0x0071e1de)],
                 ),
               ),
-              child: Column(
-                children: [
-                  Padding(padding: EdgeInsets.only(top: 20)),
-                  Container(
-                    margin: EdgeInsets.only(
-                        left: 25 * Width,
-                        right: 20 * Width,
-                        bottom: 25 * Height),
-                    width: 365 * Width,
-                    height: 498 * Height,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color(0x3f000000),
-                          blurRadius: 4,
-                          offset: Offset(0, 4),
-                        ),
-                        BoxShadow(
-                          color: Color(0x3f000000),
-                          blurRadius: 4,
-                          offset: Offset(0, 4),
-                        ),
-                      ],
-                      color: Color(0xffb9f6fc),
-                    ),
-                    child: Column(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(top: 50),
-                          width: 285,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Color(0x3f000000),
-                                blurRadius: 4,
-                                offset: Offset(0, 4),
-                              ),
-                            ],
-                            color: Colors.white,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Padding(padding: EdgeInsets.only(top: 20 * Height)),
+                    Container(
+                      margin: EdgeInsets.only(
+                          left: 25 * Width,
+                          right: 20 * Width,
+                          bottom: 25 * Height),
+                      width: 365 * Width,
+                      height: 498 * Height,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color(0x3f000000),
+                            blurRadius: 4,
+                            offset: Offset(0, 4),
                           ),
-                          child: Center(
-                            child: Text(
-                              widget.disname,
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 18,
-                                fontFamily: "Raleway",
-                                fontWeight: FontWeight.w600,
-                              ),
+                        ],
+                        color: Color(0xffb9f6fc),
+                      ),
+                      child: Column(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(top: 50 * Height),
+                            width: 285 * Width,
+                            height: 40 * Height,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color(0x3f000000),
+                                  blurRadius: 4,
+                                  offset: Offset(0, 4),
+                                ),
+                              ],
+                              color: Colors.white,
                             ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 10),
-                          width: 285,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Color(0x3f000000),
-                                blurRadius: 4,
-                                offset: Offset(0, 4),
-                              ),
-                            ],
-                            color: Colors.white,
-                          ),
-                          child: Center(
-                            child: Text(
-                              'Specialist',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 18,
-                                fontFamily: "Raleway",
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 30),
-                          width: 285,
-                          height: 145,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Color(0x3f000000),
-                                blurRadius: 4,
-                                offset: Offset(0, 4),
-                              ),
-                            ],
-                            color: Colors.white,
-                          ),
-                          child: TextFormField(
-                            maxLines: 8,
-                            decoration: inputdecor("Decription"),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 10),
-                          width: 285,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Color(0x3f000000),
-                                blurRadius: 4,
-                                offset: Offset(0, 4),
-                              ),
-                            ],
-                            color: Colors.white,
-                          ),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(left: 10),
-                              ),
-                              Text(
-                                "${selectedDate.toLocal()}".split(' ')[0],
+                            child: Center(
+                              child: Text(
+                                widget.disname,
                                 style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: 18,
+                                  fontSize: 18 * Width,
                                   fontFamily: "Raleway",
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
-                              Padding(
-                                padding: EdgeInsets.only(left: 130),
-                              ),
-                              IconButton(
-                                icon: Icon(Icons.calendar_today),
-                                onPressed: () {
-                                  _selectDate(context);
-                                },
-                              ),
-                            ],
+                            ),
                           ),
-                        ),
+                          Container(
+                            margin: EdgeInsets.only(top: 10),
+                            width: 285 * Width,
+                            height: 40 * Height,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color(0x3f000000),
+                                  blurRadius: 4,
+                                  offset: Offset(0, 4),
+                                ),
+                              ],
+                              color: Colors.white,
+                            ),
+                            child: Center(
+                              child: Text(
+                                'Specialist',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 17 * Width,
+                                  fontFamily: "Raleway",
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(top: 30 * Height),
+                            width: 285 * Width,
+                            height: 145 * Height,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color(0x3f000000),
+                                  blurRadius: 4,
+                                  offset: Offset(0, 4),
+                                ),
+                              ],
+                              color: Colors.white,
+                            ),
+                            child: TextFormField(
+                              maxLines: 10,
+                              decoration: inputdecor("Decription"),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(top: 10 * Height),
+                            width: 285 * Width,
+                            height: 40 * Height,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color(0x3f000000),
+                                  blurRadius: 4,
+                                  offset: Offset(0, 4),
+                                ),
+                              ],
+                              color: Colors.white,
+                            ),
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(left: 10 * Width),
+                                ),
+                                Text(
+                                  "${selectedDate.toLocal()}".split(' ')[0],
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18 * Height,
+                                    fontFamily: "Raleway",
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 100 * Width),
+                                ),
+                                IconButton(
+                                  icon: Icon(Icons.calendar_today),
+                                  onPressed: () {
+                                    _selectDate(context);
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(top: 10 * Height),
+                            padding: EdgeInsets.only(left: 10 * Width),
+                            width: 285 * Width,
+                            height: 40 * Height,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color(0x3f000000),
+                                  blurRadius: 4,
+                                  offset: Offset(0, 4),
+                                ),
+                              ],
+                              color: Colors.white,
+                            ),
+                            child: Dropdown(),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(padding: EdgeInsets.only(top: 20 * Height)),
+                    Row(
+                      children: [
+                        Padding(padding: EdgeInsets.only(left: 20 * Width)),
                         Container(
-                          margin: EdgeInsets.only(top: 10),
-                          padding: EdgeInsets.only(left: 10),
-                          width: 285 * Width,
+                          width: 100 * Width,
                           height: 40 * Height,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Color(0x3f000000),
-                                blurRadius: 4,
-                                offset: Offset(0, 4),
+                          child: TextButton(
+                            onPressed: () {},
+                            child: Center(
+                              child: Text(
+                                'Cancel !',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 15 * Height,
+                                  fontFamily: "Raleway",
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
-                            ],
-                            color: Colors.white,
+                            ),
                           ),
-                          child: Dropdown(),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              color: Colors.red),
+                        ),
+                        Padding(padding: EdgeInsets.only(left: 70 * Width)),
+                        Container(
+                          width: 220 * Width,
+                          height: 40 * Height,
+                          child: TextButton(
+                            onPressed: () {},
+                            child: Center(
+                              child: Text(
+                                'Make Appointmnet!',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 15 * Height,
+                                  fontFamily: "Raleway",
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              color: Colors.green),
                         ),
                       ],
                     ),
-                  ),
-                  Padding(padding: EdgeInsets.only(top: 20)),
-                  Row(
-                    children: [
-                      Padding(padding: EdgeInsets.only(left: 20)),
-                      Container(
-                        width: 100,
-                        height: 40,
-                        child: TextButton(
-                          onPressed: () {},
-                          child: Center(
-                            child: Text(
-                              'Cancel !',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
-                                fontFamily: "Raleway",
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                        ),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            color: Colors.red),
-                      ),
-                      Padding(padding: EdgeInsets.only(left: 70)),
-                      Container(
-                        width: 200,
-                        height: 40,
-                        child: TextButton(
-                          onPressed: () {},
-                          child: Center(
-                            child: Text(
-                              'Make Appointmnet!',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
-                                fontFamily: "Raleway",
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                        ),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            color: Colors.green),
-                      ),
-                    ],
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ],
