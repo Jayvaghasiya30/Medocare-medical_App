@@ -1,3 +1,4 @@
+import 'package:amoc/utilis/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -51,6 +52,8 @@ class Auth extends ChangeNotifier {
     if (user != null) {
       _success = true;
       _userEmail = user.email;
+      currentuser = user.displayName;
+      currentemail=user.email;
     } else {
       _success = true;
     }
@@ -66,9 +69,15 @@ class Auth extends ChangeNotifier {
       if (user != null) {
         _success = true;
         _userEmail = user.email;
+        currentuser = user?.displayName;
+
+        currentemail=user.email;
+        print(currentemail);
       } else {
         _success = true;
       }
+      User userr = FirebaseAuth.instance.currentUser;
+      print(userr);
       return _userEmail;
       // );
     } on FirebaseAuthException catch (e) {
@@ -101,6 +110,8 @@ class Auth extends ChangeNotifier {
     final user12 = await auth.currentUser;
     user1 = user12.displayName.toString();
     userEmail = user12.email.toString();
+    currentuser = user.displayName;
+    currentemail=user.email;
     notifyListeners();
     return userEmail;
   }

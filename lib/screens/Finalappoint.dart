@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:amoc/utilis/constants.dart';
 import 'package:flutter/painting.dart';
-import 'package:table_calendar/table_calendar.dart';
+import 'package:twilio_flutter/twilio_flutter.dart';
+import 'package:intl/intl.dart';
 
 String _chosenValue;
-
+DateTime selectedDate = DateTime.now();
+TwilioFlutter twilioFlutter;
 class AddAppointment extends StatefulWidget {
   AddAppointment({this.disname});
   final disname;
@@ -14,7 +16,9 @@ class AddAppointment extends StatefulWidget {
 }
 
 class _AddAppointmentState extends State<AddAppointment> {
-  DateTime selectedDate = DateTime.now();
+
+  String date= DateFormat('dd/MM/yyyy').format(selectedDate);
+  final TextEditingController _decriptionController = TextEditingController();
   bool _decideWhichDayToEnable(DateTime day) {
     if ((day.isAfter(DateTime.now().subtract(Duration(days: 1))) &&
         day.isBefore(DateTime.now().add(Duration(days: 10))))) {
@@ -34,10 +38,32 @@ class _AddAppointmentState extends State<AddAppointment> {
     if (picked != null && picked != selectedDate)
       setState(() {
         selectedDate = picked;
+        date = DateFormat('dd/MM/yyyy').format(selectedDate);
       });
   }
+  void sendSms() async {
+    twilioFlutter.sendSMS(
+        toNumber: '+916355592698',
+        messageBody:
+        '\n '+'Appointment Request from $currentuser \n'+
+            'Email : '+ '$currentemail' + '\n'+
+            'Disease : '+
+            widget.disname+'\n'+
+            'Description : '+_decriptionController.text + '\n'+
+            'Date : '+ '$date' + '\n'+
+            'Time : ' + _chosenValue
+    );
+  }
+
 
   @override
+  void initState() {
+    twilioFlutter = TwilioFlutter(
+        accountSid: 'AC727cebaaed325b94b16b80dbe12d4440',
+        authToken: '1998c5ab6930b259c14458fd86310502',
+        twilioNumber: '+18282660080');
+    super.initState();
+  }
   Widget build(BuildContext context) {
     double Width = MediaQuery.of(context).size.width / 411;
     double Height = MediaQuery.of(context).size.height / 731;
@@ -197,6 +223,7 @@ class _AddAppointmentState extends State<AddAppointment> {
                             ),
                             child: TextFormField(
                               maxLines: 10,
+                              controller: _decriptionController,
                               decoration: inputdecor("Decription"),
                             ),
                           ),
@@ -221,7 +248,8 @@ class _AddAppointmentState extends State<AddAppointment> {
                                   padding: EdgeInsets.only(left: 10 * Width),
                                 ),
                                 Text(
-                                  "${selectedDate.toLocal()}".split(' ')[0],
+                                  date,
+                                 // "${selectedDate.toLocal()}".split(' ')[0],
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 18 * Height,
@@ -292,7 +320,9 @@ class _AddAppointmentState extends State<AddAppointment> {
                           width: 220 * Width,
                           height: 40 * Height,
                           child: TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              sendSms();
+                            },
                             child: Center(
                               child: Text(
                                 'Make Appointmnet!',

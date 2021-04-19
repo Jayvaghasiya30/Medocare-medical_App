@@ -14,6 +14,8 @@ class textbox extends StatelessWidget {
 
 
 }
+String currentuser = null;
+String currentemail = null;
 InputDecoration inputdecor(strr) {
   return InputDecoration(
     filled: true,
