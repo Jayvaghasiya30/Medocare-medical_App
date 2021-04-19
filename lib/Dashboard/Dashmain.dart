@@ -7,40 +7,41 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:amoc/screens/drawer.dart';
 import 'package:amoc/screens/commondieases.dart';
 import 'package:amoc/utilis/constants.dart';
-import 'package:amoc/main.dart';
+
 import 'package:amoc/screens/specilaist.dart';
 import 'package:amoc/screens/hospital.dart';
 import 'package:amoc/screens/specialist_info.dart';
+final Diseases = [
+  // 'Asthma',
+  // 'Common Flu',
+  // 'Conjunctivitis',
+  // 'Depression',
+  // 'Diarrhoea',
+  // 'See all \n Dieaases',
+];
+final Secialist = [
+  'Pediatrician',
+  'Neurologist',
+  'Orthopedist',
+  'Dentist',
+  'Physician'
+];
+final LabATests = [
+  'MRI',
+  'CT SCAN',
+  'ECG',
+  'X-Ray',
+  'THYROID',
+  'See all \n Tests'
+];
+final Hospitals = ['Hospital A', 'Hospital B'];
+final lasthospital = "See all Top\n Hospitals";
 
 class Dashboard extends StatefulWidget {
   Dashboard({this.email, this.check});
   final email;
   final check;
-  final Diseases = [
-    // 'Asthma',
-    // 'Common Flu',
-    // 'Conjunctivitis',
-    // 'Depression',
-    // 'Diarrhoea',
-    // 'See all \n Dieaases',
-  ];
-  final Secialist = [
-    'Pediatrician',
-    'Neurologist',
-    'Orthopedist',
-    'Dentist',
-    'Physician'
-  ];
-  final LabATests = [
-    'MRI',
-    'CT SCAN',
-    'ECG',
-    'X-Ray',
-    'THYROID',
-    'See all \n Tests'
-  ];
-  final Hospitals = ['Hospital A', 'Hospital B'];
-  final lasthospital = "See all Top\n Hospitals";
+
   bool fl = false;
 
   @override
@@ -48,19 +49,43 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+
+  int _selectedIndex = 0;
+  static  List<Widget> _widgetOptions = <Widget>[
+   dashcontainer(),
+    symmaincont(),
+    dashcontainer(),
+
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   void initState() {
+    super.initState();
     read(widget.email);
     //print(Auth().Authprovider());
     readinfos();
   }
 
+  @override
+  void dispose() {
+
+    super.dispose();
+  }
   void read(em) {
     final firestoreInstance = FirebaseFirestore.instance;
     firestoreInstance.collection("USERS").doc(em).get().then((value) {
       print(value.data());
     });
   }
+
+
+
 
   void readinfos() {
     Diss = [];
@@ -69,10 +94,10 @@ class _DashboardState extends State<Dashboard> {
       querySnapshot.docs.forEach((result) {
         //print(result.data());
         setState(() {
-          if (widget.Diseases.length < 5) {
-            widget.Diseases.add(result.id.toString());
-            if (widget.Diseases.length == 5) {
-              widget.Diseases.add("See all \n Dieaases");
+          if (Diseases.length < 5) {
+            Diseases.add(result.id.toString());
+            if (Diseases.length == 5) {
+              Diseases.add("See all \n Dieaases");
               //Diss.add("See all \n Dieaases");
               widget.fl = true;
             }
@@ -89,14 +114,15 @@ class _DashboardState extends State<Dashboard> {
           //     widget.fl=false;
           //   }
         });
-        print(widget.Diseases);
+        print(Diseases);
       });
     });
   }
-
+  int _index = 0;
   Widget build(BuildContext context) {
     double Width = MediaQuery.of(context).size.width;
     double Height = MediaQuery.of(context).size.height;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -159,302 +185,7 @@ class _DashboardState extends State<Dashboard> {
         backgroundColor: Color(0xff5eb0df),
       ),
       drawer: Sidebar(),
-      body: Container(
-        width: 411 * Width / 411,
-        height: 731 * Height / 411,
-        color: Color(0xff5eb0df),
-        child: Stack(
-          children: [
-            Positioned.fill(
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: Container(
-                  width: 411,
-                  height: 637,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(0),
-                      topRight: Radius.circular(0),
-                      bottomLeft: Radius.circular(500),
-                      bottomRight: Radius.circular(0),
-                    ),
-                    gradient: LinearGradient(
-                      begin: Alignment.bottomLeft,
-                      end: Alignment.topRight,
-                      colors: [Color(0xff71e1de), Color(0x0071e1de)],
-                    ),
-                  ),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          padding: EdgeInsets.only(left: 20, top: 20),
-                          child: SizedBox(
-                            width: 215,
-                            height: 29,
-                            child: Text(
-                              "Common Dieases",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 24,
-                                fontFamily: "Raleway",
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(left: 20, top: 20),
-                          child: GridView.count(
-                            physics: ScrollPhysics(),
-                            shrinkWrap: true,
-                            // padding: EdgeInsets.only(bottom: 30,left: 30),
-                            crossAxisCount: 3,
-                            children: [
-                              ...widget.Diseases.map(
-                                (i) => Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Smallboxes(
-                                      width: 55,
-                                      height: 55,
-                                      mssg: i,
-                                      onPressed: () {
-                                        Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                            builder: (context) {
-                                              return
-                                                  //Hospital();
-                                                  //Specialist();
-                                                  CommonDiseases();
-                                            },
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(left: 20, top: 5),
-                          child: SizedBox(
-                            width: 215,
-                            height: 29,
-                            child: Text(
-                              "Top Specialists",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 24,
-                                fontFamily: "Raleway",
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(left: 20, top: 20),
-                          child: GridView.count(
-                            physics: ScrollPhysics(),
-                            shrinkWrap: true,
-                            // padding: EdgeInsets.only(bottom: 30,left: 30),
-                            crossAxisCount: 3,
-                            children: [
-                              ...widget.Secialist.map(
-                                (i) => Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Smallboxes(
-                                      width: 55,
-                                      height: 55,
-                                      mssg: i,
-                                      onPressed: () {
-                                        Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                            builder: (context) {
-                                              return SpecilaistInfo(disname: i);
-                                              //Hospital();
-                                              //Specialist();
-                                              //CommonDiseases();
-                                            },
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Smallboxes(
-                                width: 55,
-                                height: 55,
-                                mssg: "See all \n Categories",
-                                onPressed: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) {
-                                        return
-                                            //SpecilaistInfo(disname: ,)
-                                            //Hospital();
-                                            Specialist();
-                                        //CommonDiseases();
-                                      },
-                                    ),
-                                  );
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(left: 20, top: 5),
-                          child: Text(
-                            "Make a Lab Appointment",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 24,
-                              fontFamily: "Raleway",
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(left: 20, top: 20),
-                          child: GridView.count(
-                            physics: ScrollPhysics(),
-                            shrinkWrap: true,
-                            // padding: EdgeInsets.only(bottom: 30,left: 30),
-                            crossAxisCount: 3,
-                            children: [
-                              ...widget.LabATests.map(
-                                (i) => Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Smallboxes(
-                                      width: 55,
-                                      height: 55,
-                                      mssg: i,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(left: 20, top: 5),
-                          child: Text(
-                            "Top Hospitals",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 24,
-                              fontFamily: "Raleway",
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(left: 20, top: 20),
-                          child: GridView.count(
-                            physics: ScrollPhysics(),
-                            shrinkWrap: true,
-                            // padding: EdgeInsets.only(bottom: 30,left: 30),
-                            crossAxisCount: 3,
-                            children: [
-                              ...widget.Hospitals.map(
-                                (i) => Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Smallboxes(
-                                      width: 55,
-                                      height: 55,
-                                      mssg: i,
-                                      onPressed: () {
-                                        Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                            builder: (context) {
-                                              return HospitalInfo(
-                                                  hospitalname: i);
-                                              //Specialist();
-                                              //CommonDiseases();
-                                            },
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Smallboxes(
-                                width: 55,
-                                height: 55,
-                                mssg: widget.lasthospital,
-                                onPressed: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) {
-                                        return Hospital();
-                                        //Specialist();
-                                        //CommonDiseases();
-                                      },
-                                    ),
-                                  );
-                                },
-                              ),
-                              //),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(left: 20, top: 5),
-                          child: Text(
-                            "Health Feed",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 24,
-                              fontFamily: "Raleway",
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                        Padding(padding: EdgeInsets.only(left: 20, top: 5)),
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: [
-                              Padding(padding: EdgeInsets.only(left: 20)),
-                              Smallboxes(
-                                width: 216,
-                                height: 129,
-                                mssg: "YOGA",
-                              ),
-                              Padding(padding: EdgeInsets.only(left: 20)),
-                              Smallboxes(
-                                width: 216,
-                                height: 129,
-                                mssg: "YOGA",
-                              ),
-                              Padding(padding: EdgeInsets.only(left: 20)),
-                              Smallboxes(
-                                width: 216,
-                                height: 129,
-                                mssg: "YOGA",
-                              ),
-                              Padding(padding: EdgeInsets.only(left: 20)),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+      body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: Container(
         width: 411,
         height: 80,
@@ -476,8 +207,11 @@ class _DashboardState extends State<Dashboard> {
               fontWeight: FontWeight.w600,
             ),
             elevation: 10,
+            currentIndex: _selectedIndex,
+            onTap: _onItemTapped,
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
+
                 icon: Icon(
                   Icons.home,
                   size: 41,
@@ -490,6 +224,7 @@ class _DashboardState extends State<Dashboard> {
                   size: 41,
                 ),
                 label: 'Make Appointments',
+
               ),
               BottomNavigationBarItem(
                 icon: Icon(
@@ -558,6 +293,310 @@ class Smallboxes extends StatelessWidget {
         ),
         Padding(padding: EdgeInsets.only(bottom: 10)),
       ],
+    );
+  }
+}
+
+class dashcontainer extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    double Width = MediaQuery.of(context).size.width;
+    double Height = MediaQuery.of(context).size.height;
+    return Container(
+      width: 411 * Width / 411,
+      height: 731 * Height / 411,
+      color: Color(0xff5eb0df),
+      child: Stack(
+        children: [
+          Positioned.fill(
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: Container(
+                width: 411,
+                height: 637,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(0),
+                    topRight: Radius.circular(0),
+                    bottomLeft: Radius.circular(500),
+                    bottomRight: Radius.circular(0),
+                  ),
+                  gradient: LinearGradient(
+                    begin: Alignment.bottomLeft,
+                    end: Alignment.topRight,
+                    colors: [Color(0xff71e1de), Color(0x0071e1de)],
+                  ),
+                ),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.only(left: 20, top: 20),
+                        child: SizedBox(
+                          width: 215,
+                          height: 29,
+                          child: Text(
+                            "Common Dieases",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 24,
+                              fontFamily: "Raleway",
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(left: 20, top: 20),
+                        child: GridView.count(
+                          physics: ScrollPhysics(),
+                          shrinkWrap: true,
+                          // padding: EdgeInsets.only(bottom: 30,left: 30),
+                          crossAxisCount: 3,
+                          children: [
+                            ...Diseases.map(
+                                  (i) => Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Smallboxes(
+                                    width: 55,
+                                    height: 55,
+                                    mssg: i,
+                                    onPressed: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) {
+                                            return
+                                              //Hospital();
+                                              //Specialist();
+                                              CommonDiseases();
+                                          },
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(left: 20, top: 5),
+                        child: SizedBox(
+                          width: 215,
+                          height: 29,
+                          child: Text(
+                            "Top Specialists",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 24,
+                              fontFamily: "Raleway",
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(left: 20, top: 20),
+                        child: GridView.count(
+                          physics: ScrollPhysics(),
+                          shrinkWrap: true,
+                          // padding: EdgeInsets.only(bottom: 30,left: 30),
+                          crossAxisCount: 3,
+                          children: [
+                            ...Secialist.map(
+                                  (i) => Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Smallboxes(
+                                    width: 55,
+                                    height: 55,
+                                    mssg: i,
+                                    onPressed: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) {
+                                            return SpecilaistInfo(disname: i);
+                                            //Hospital();
+                                            //Specialist();
+                                            //CommonDiseases();
+                                          },
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Smallboxes(
+                              width: 55,
+                              height: 55,
+                              mssg: "See all \n Categories",
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return
+                                        //SpecilaistInfo(disname: ,)
+                                        //Hospital();
+                                        Specialist();
+                                      //CommonDiseases();
+                                    },
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(left: 20, top: 5),
+                        child: Text(
+                          "Make a Lab Appointment",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 24,
+                            fontFamily: "Raleway",
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(left: 20, top: 20),
+                        child: GridView.count(
+                          physics: ScrollPhysics(),
+                          shrinkWrap: true,
+                          // padding: EdgeInsets.only(bottom: 30,left: 30),
+                          crossAxisCount: 3,
+                          children: [
+                            ...LabATests.map(
+                                  (i) => Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Smallboxes(
+                                    width: 55,
+                                    height: 55,
+                                    mssg: i,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(left: 20, top: 5),
+                        child: Text(
+                          "Top Hospitals",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 24,
+                            fontFamily: "Raleway",
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(left: 20, top: 20),
+                        child: GridView.count(
+                          physics: ScrollPhysics(),
+                          shrinkWrap: true,
+                          // padding: EdgeInsets.only(bottom: 30,left: 30),
+                          crossAxisCount: 3,
+                          children: [
+                            ...Hospitals.map(
+                                  (i) => Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Smallboxes(
+                                    width: 55,
+                                    height: 55,
+                                    mssg: i,
+                                    onPressed: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) {
+                                            return HospitalInfo(
+                                                hospitalname: i);
+                                            //Specialist();
+                                            //CommonDiseases();
+                                          },
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Smallboxes(
+                              width: 55,
+                              height: 55,
+                              mssg: lasthospital,
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return Hospital();
+                                      //Specialist();
+                                      //CommonDiseases();
+                                    },
+                                  ),
+                                );
+                              },
+                            ),
+                            //),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(left: 20, top: 5),
+                        child: Text(
+                          "Health Feed",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 24,
+                            fontFamily: "Raleway",
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      Padding(padding: EdgeInsets.only(left: 20, top: 5)),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            Padding(padding: EdgeInsets.only(left: 20)),
+                            Smallboxes(
+                              width: 216,
+                              height: 129,
+                              mssg: "YOGA",
+                            ),
+                            Padding(padding: EdgeInsets.only(left: 20)),
+                            Smallboxes(
+                              width: 216,
+                              height: 129,
+                              mssg: "YOGA",
+                            ),
+                            Padding(padding: EdgeInsets.only(left: 20)),
+                            Smallboxes(
+                              width: 216,
+                              height: 129,
+                              mssg: "YOGA",
+                            ),
+                            Padding(padding: EdgeInsets.only(left: 20)),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
