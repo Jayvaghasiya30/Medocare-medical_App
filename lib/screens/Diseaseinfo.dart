@@ -33,10 +33,14 @@ class DiseaseInfo extends StatelessWidget {
                 fontWeight: FontWeight.w600,
               ),
             ),
-            leading: Icon(
-              Icons.arrow_back,
-              color: Colors.black,
-            ),
+            leading: IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: Colors.white,
+                )),
             flexibleSpace: Container(
               decoration: BoxDecoration(
                 // borderRadius: BorderRadius.only(
@@ -118,8 +122,12 @@ class DiseaseInfo extends StatelessWidget {
               Overview(
                 disname: disname,
               ),
-              Symptoms(),
-              Treatment(),
+              Symptoms(
+                disname: disname,
+              ),
+              Treatment(
+                disname: disname,
+              ),
               DiseaseSpecialist(disname: disname),
             ],
           )),

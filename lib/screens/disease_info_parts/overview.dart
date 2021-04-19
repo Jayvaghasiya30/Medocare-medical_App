@@ -17,7 +17,7 @@ class _OverviewState extends State<Overview> {
   @override
   initState() {
     // getdata();
-    read("Asthma");
+    read(widget.disname);
   }
 
   String overviewData = " ";

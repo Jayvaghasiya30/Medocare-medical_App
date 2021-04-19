@@ -6,6 +6,8 @@ import 'package:flutter/rendering.dart';
 //Crud crudObj = Crud();
 
 class Symptoms extends StatefulWidget {
+  Symptoms({this.disname});
+  final disname;
   var overviewData = [];
   @override
   _SymptomsState createState() => _SymptomsState();
@@ -15,7 +17,7 @@ class _SymptomsState extends State<Symptoms> {
   @override
   initState() {
     // getdata();
-    read("Asthma");
+    read(widget.disname);
   }
 
   // void getdata() async {
@@ -28,6 +30,8 @@ class _SymptomsState extends State<Symptoms> {
       //print(value.data()["Symptoms"]);
       setState(() {
         widget.overviewData = value.data()["Symptoms"];
+        if (widget.overviewData == null)
+          widget.overviewData.add("commom symptoms");
         //overviewData = overviewData +
         //"hjhslgrs gshglksrg hh giowherg htioghw thow hghuhghogh 0ghoir hgi ih ihgiohgirhghiorhgio hiohri ghriogh oiri hgroghioh gdr hd hdh thth gh dghdgj dgn dgjfgj dgn dghj dgth dg tdj dg dg g jg fn gdn g j j dg ndg j dg dg n gd j dtj dg jd g  j gj d  g j tr jd g dg n dgj  j rt j gf ng f fjg j j  f j fg nfg j f j yj f gn jgfn";
       });

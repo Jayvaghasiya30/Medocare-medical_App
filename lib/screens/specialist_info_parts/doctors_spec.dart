@@ -82,66 +82,68 @@ class _DoctorsSpecState extends State<DoctorsSpec> {
   Widget build(BuildContext context) {
     double Width = MediaQuery.of(context).size.width / 411;
     double Height = MediaQuery.of(context).size.height / 731;
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(
-              Icons.arrow_back,
-              color: Colors.white,
-            )),
-        title: Text(
-          'Make Appointment',
-          style: TextStyle(color: Colors.black),
-        ),
+    return
+        //Scaffold(
+        // appBar: AppBar(
+        //   leading: IconButton(
+        //       onPressed: () {
+        //         Navigator.pop(context);
+        //       },
+        //       icon: Icon(
+        //         Icons.arrow_back,
+        //         color: Colors.white,
+        //       )),
+        //   title: Text(
+        //     'Make Appointment',
+        //     style: TextStyle(color: Colors.black),
+        //   ),
+        // ),
+        //body:
+        Container(
+      width: 411 * Width,
+      height: 731 * Height,
+      color: Color(0xff5fb1df),
+      padding: EdgeInsets.only(
+        bottom: 34,
       ),
-      body: Container(
-        width: 411 * Width,
-        height: 731 * Height,
-        color: Color(0xff5fb1df),
-        padding: EdgeInsets.only(
-          bottom: 34,
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: 411 * Width,
-              height: 700 * Height,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(0),
-                  topRight: Radius.circular(0),
-                  bottomLeft: Radius.circular(500),
-                  bottomRight: Radius.circular(0),
-                ),
-                gradient: LinearGradient(
-                  begin: Alignment.bottomLeft,
-                  end: Alignment.topRight,
-                  colors: [Color(0xff71e1de), Color(0x0071e1de)],
-                ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: 411 * Width,
+            height: 700 * Height,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(0),
+                topRight: Radius.circular(0),
+                bottomLeft: Radius.circular(500),
+                bottomRight: Radius.circular(0),
               ),
-              child: ListView(
-                children: [
-                  Padding(padding: EdgeInsets.only(top: 20)),
-                  ...widget.di.map(
-                    (i) => Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        DoctorContainer(doctor: i),
-                      ],
-                    ),
-                  ),
-                ],
+              gradient: LinearGradient(
+                begin: Alignment.bottomLeft,
+                end: Alignment.topRight,
+                colors: [Color(0xff71e1de), Color(0x0071e1de)],
               ),
             ),
-          ],
-        ),
+            child: ListView(
+              children: [
+                Padding(padding: EdgeInsets.only(top: 20)),
+                ...widget.di.map(
+                  (i) => Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      DoctorContainer(doctor: i),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
+      // ),
     );
   }
 }

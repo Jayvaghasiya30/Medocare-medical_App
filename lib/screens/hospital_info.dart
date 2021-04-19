@@ -34,10 +34,14 @@ class HospitalInfo extends StatelessWidget {
                 fontWeight: FontWeight.w600,
               ),
             ),
-            leading: Icon(
-              Icons.arrow_back,
-              color: Colors.black,
-            ),
+            leading: IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: Colors.white,
+                )),
             flexibleSpace: Container(
               decoration: BoxDecoration(
                 // borderRadius: BorderRadius.only(

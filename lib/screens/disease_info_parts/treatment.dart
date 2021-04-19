@@ -6,6 +6,8 @@ import 'package:flutter/rendering.dart';
 //Crud crudObj = Crud();
 
 class Treatment extends StatefulWidget {
+  Treatment({this.disname});
+  final disname;
 //  Map<dynamic, dynamic>
   var overviewData;
   var first = [];
@@ -18,7 +20,7 @@ class _TreatmentState extends State<Treatment> {
   @override
   initState() {
     // getdata();
-    read("Asthma");
+    read(widget.disname);
   }
 
   // void getdata() async {
@@ -31,16 +33,16 @@ class _TreatmentState extends State<Treatment> {
       print(value.data()["Treatments"]);
       setState(() {
         widget.overviewData = value.data()["Treatments"];
+        for (MapEntry e in widget.overviewData.entries) {
+          //print("Key ${e.key}, Value ${e.value}");
+          widget.first.add(e.key);
+          widget.second.add(e.value);
+        }
         //overviewData = overviewData +
         //"hjhslgrs gshglksrg hh giowherg htioghw thow hghuhghogh 0ghoir hgi ih ihgiohgirhghiorhgio hiohri ghriogh oiri hgroghioh gdr hd hdh thth gh dghdgj dgn dgjfgj dgn dghj dgth dg tdj dg dg g jg fn gdn g j j dg ndg j dg dg n gd j dtj dg jd g  j gj d  g j tr jd g dg n dgj  j rt j gf ng f fjg j j  f j fg nfg j f j yj f gn jgfn";
       });
       print(widget.overviewData["Medications"]);
       print(widget.overviewData.length);
-      for (MapEntry e in widget.overviewData.entries) {
-        //print("Key ${e.key}, Value ${e.value}");
-        widget.first.add(e.key);
-        widget.second.add(e.value);
-      }
     });
   }
 
@@ -104,7 +106,7 @@ class _TreatmentState extends State<Treatment> {
                 child:
                     //ListView(
                     ListView.builder(
-                        itemCount: widget.overviewData.length,
+                        itemCount: widget.first.length,
                         itemBuilder: (context, index) {
                           return Roww(
                             mssg: widget.first[index],

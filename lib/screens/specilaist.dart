@@ -56,6 +56,21 @@ class _SpecialistState extends State<Specialist> {
           'Specilaist',
           style: TextStyle(color: Colors.black),
         ),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            // borderRadius: BorderRadius.only(
+            //   topLeft: Radius.circular(0),
+            //   topRight: Radius.circular(0),
+            //   bottomLeft: Radius.circular(20 * Width / 411),
+            //   bottomRight: Radius.circular(20 * Width / 411),
+            //),
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.topRight,
+              colors: [Color(0xff71e1de), Color(0x0071e1de)],
+            ),
+          ),
+        ),
       ),
       body: SafeArea(
         child: Container(
