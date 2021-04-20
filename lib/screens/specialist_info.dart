@@ -4,6 +4,7 @@ import 'package:amoc/screens/disease_info_parts/overview.dart';
 import 'package:amoc/screens/disease_info_parts/symptoms.dart';
 import 'package:amoc/screens/disease_info_parts/treatment.dart';
 import 'package:amoc/screens/specialist_info_parts/doctors_spec.dart';
+import 'package:amoc/screens/specialist_info_parts/specialist_overview.dart';
 
 class SpecilaistInfo extends StatelessWidget {
   SpecilaistInfo({this.disname});
@@ -95,8 +96,8 @@ class SpecilaistInfo extends StatelessWidget {
           //),
           body: TabBarView(
             children: [
-              Overview(
-                disname: "Asthma",
+              SpecialistOverview(
+                disname: disname,
                 //disname,
               ),
               DoctorsSpec(

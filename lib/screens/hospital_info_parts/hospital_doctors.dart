@@ -8,6 +8,9 @@ class HospitalDoctors extends StatefulWidget {
   HospitalDoctors({this.hospitalname});
   final String hospitalname;
   var di = [];
+  var spec = [];
+  var hosp = [];
+  var deg = [];
   //List<Map<String, dynamic>> users;
   @override
   _HospitalDoctorsState createState() => _HospitalDoctorsState();
@@ -43,6 +46,9 @@ class _HospitalDoctorsState extends State<HospitalDoctors> {
         if (result != null) {
           setState(() {
             widget.di.add(result.data()["Name"]);
+            widget.deg.add(result.data()["Qualifications"]);
+            widget.spec.add(result.data()["Specialist"]);
+            widget.hosp.add(result.data()["Current Hospital"]);
           });
           print(result.data()['Name']);
           print(result.data()['Current Hospital']);

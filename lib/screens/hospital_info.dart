@@ -5,6 +5,7 @@ import 'package:amoc/screens/disease_info_parts/overview.dart';
 import 'package:amoc/screens/disease_info_parts/symptoms.dart';
 import 'package:amoc/screens/disease_info_parts/treatment.dart';
 import 'package:amoc/screens/specialist_info_parts/doctors_spec.dart';
+import 'package:amoc/screens/hospital_info_parts/hospital_overview.dart';
 
 class HospitalInfo extends StatelessWidget {
   HospitalInfo({this.hospitalname});
@@ -96,8 +97,8 @@ class HospitalInfo extends StatelessWidget {
           //),
           body: TabBarView(
             children: [
-              Overview(
-                disname: "Asthma",
+              HospitalOverview(
+                disname: hospitalname,
                 //disname,
               ),
               HospitalDoctors(

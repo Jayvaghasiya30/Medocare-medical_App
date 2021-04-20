@@ -12,13 +12,14 @@ import 'package:amoc/screens/specilaist.dart';
 import 'package:amoc/screens/hospital.dart';
 import 'package:amoc/screens/specialist_info.dart';
 import 'package:amoc/screens/Appoints/Appointrecords.dart';
+
 final Diseases = [
-  // 'Asthma',
-  // 'Common Flu',
-  // 'Conjunctivitis',
-  // 'Depression',
-  // 'Diarrhoea',
-  // 'See all \n Dieaases',
+  'Asthma',
+  'Common Flu',
+  'Conjunctivitis',
+  'Depression',
+  'Diarrhoea',
+  'See all \n Dieaases',
 ];
 final Secialist = [
   'Pediatrician',
@@ -50,13 +51,11 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-
   int _selectedIndex = 0;
-  static  List<Widget> _widgetOptions = <Widget>[
-   dashcontainer(),
+  static List<Widget> _widgetOptions = <Widget>[
+    dashcontainer(),
     symmaincont(),
     Recod(),
-
   ];
 
   void _onItemTapped(int index) {
@@ -76,9 +75,9 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   void dispose() {
-
     super.dispose();
   }
+
   void read(em) {
     final firestoreInstance = FirebaseFirestore.instance;
     firestoreInstance.collection("USERS").doc(em).get().then((value) {
@@ -86,13 +85,12 @@ class _DashboardState extends State<Dashboard> {
     });
   }
 
-
   void readappoint() {
-     Deccrep =[];
-     docname = [];
-     date = [];
+    Deccrep = [];
+    docname = [];
+    date = [];
     time = [];
-     dis = [];
+    dis = [];
     final firestoreInstance = FirebaseFirestore.instance;
     FirebaseFirestore.instance
         .collection(currentemail)
@@ -106,13 +104,10 @@ class _DashboardState extends State<Dashboard> {
             time.add(result.data()["Time"]);
             docname.add(result.data()["Doctor"]);
             dis.add(result.data()["Disease"]);
-
           });
-
         } else
           print("Erro");
       });
-
     });
   }
 
@@ -123,30 +118,15 @@ class _DashboardState extends State<Dashboard> {
       querySnapshot.docs.forEach((result) {
         //print(result.data());
         setState(() {
-          if (Diseases.length < 5) {
-            Diseases.add(result.id.toString());
-            if (Diseases.length == 5) {
-              Diseases.add("See all \n Dieaases");
-              //Diss.add("See all \n Dieaases");
-              widget.fl = true;
-            }
-          }
-          // var a = [
-          //   ['image path', 'image name'],
-          //   [],
-          // ];
+          //
 
           Diss.add(result.id.toString());
-          // if(widget.fl==true)
-          //   {
-          //     widget.Diseases.add("See all \n Dieaases");
-          //     widget.fl=false;
-          //   }
         });
         print(Diseases);
       });
     });
   }
+
   int _index = 0;
   Widget build(BuildContext context) {
     double Width = MediaQuery.of(context).size.width;
@@ -240,7 +220,6 @@ class _DashboardState extends State<Dashboard> {
             onTap: _onItemTapped,
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-
                 icon: Icon(
                   Icons.home,
                   size: 41,
@@ -253,7 +232,6 @@ class _DashboardState extends State<Dashboard> {
                   size: 41,
                 ),
                 label: 'Make Appointments',
-
               ),
               BottomNavigationBarItem(
                 icon: Icon(
@@ -385,7 +363,7 @@ class dashcontainer extends StatelessWidget {
                           crossAxisCount: 3,
                           children: [
                             ...Diseases.map(
-                                  (i) => Column(
+                              (i) => Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Smallboxes(
@@ -397,9 +375,9 @@ class dashcontainer extends StatelessWidget {
                                         MaterialPageRoute(
                                           builder: (context) {
                                             return
-                                              //Hospital();
-                                              //Specialist();
-                                              CommonDiseases();
+                                                //Hospital();
+                                                //Specialist();
+                                                CommonDiseases();
                                           },
                                         ),
                                       );
@@ -436,7 +414,7 @@ class dashcontainer extends StatelessWidget {
                           crossAxisCount: 3,
                           children: [
                             ...Secialist.map(
-                                  (i) => Column(
+                              (i) => Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Smallboxes(
@@ -468,9 +446,9 @@ class dashcontainer extends StatelessWidget {
                                   MaterialPageRoute(
                                     builder: (context) {
                                       return
-                                        //SpecilaistInfo(disname: ,)
-                                        //Hospital();
-                                        Specialist();
+                                          //SpecilaistInfo(disname: ,)
+                                          //Hospital();
+                                          Specialist();
                                       //CommonDiseases();
                                     },
                                   ),
@@ -501,7 +479,7 @@ class dashcontainer extends StatelessWidget {
                           crossAxisCount: 3,
                           children: [
                             ...LabATests.map(
-                                  (i) => Column(
+                              (i) => Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Smallboxes(
@@ -536,7 +514,7 @@ class dashcontainer extends StatelessWidget {
                           crossAxisCount: 3,
                           children: [
                             ...Hospitals.map(
-                                  (i) => Column(
+                              (i) => Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Smallboxes(

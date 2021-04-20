@@ -8,6 +8,9 @@ class DoctorsSpec extends StatefulWidget {
   DoctorsSpec({this.disname});
   final disname;
   var di = [];
+  var spec = [];
+  var hosp = [];
+  var deg = [];
   List<Map<String, dynamic>> users;
   @override
   _DoctorsSpecState createState() => _DoctorsSpecState();
@@ -43,6 +46,9 @@ class _DoctorsSpecState extends State<DoctorsSpec> {
         if (result != null) {
           setState(() {
             widget.di.add(result.data()["Name"]);
+            widget.spec.add(result.data()["Specialist"]);
+            widget.hosp.add(result.data()["Current Hospital"]);
+            widget.deg.add(result.data()["Qualifications"]);
           });
           print(result.data()['Name']);
           print(result.data()['Current Hospital']);
@@ -127,19 +133,29 @@ class _DoctorsSpecState extends State<DoctorsSpec> {
                 colors: [Color(0xff71e1de), Color(0x0071e1de)],
               ),
             ),
-            child: ListView(
-              children: [
-                Padding(padding: EdgeInsets.only(top: 20)),
-                ...widget.di.map(
-                  (i) => Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      DoctorContainer(doctor: i),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+            child: ListView.builder(
+                itemCount: widget.di.length,
+                itemBuilder: (context, index) {
+                  return DoctorContainer(
+                    doctor: widget.di[index],
+                    speci: widget.spec[index],
+                    hospi: widget.hosp[index],
+                    degr: widget.deg[index],
+                  );
+                }),
+            // ListView(
+            //   children: [
+            //     Padding(padding: EdgeInsets.only(top: 20)),
+            //     ...widget.di.map(
+            //       (i) => Column(
+            //         mainAxisSize: MainAxisSize.min,
+            //         children: [
+            //           DoctorContainer(doctor: i),
+            //         ],
+            //       ),
+            //     ),
+            //   ],
+            // ),
           ),
         ],
       ),
@@ -149,25 +165,26 @@ class _DoctorsSpecState extends State<DoctorsSpec> {
 }
 
 class DoctorContainer extends StatelessWidget {
-  DoctorContainer({this.doctor});
+  DoctorContainer({this.doctor, this.speci, this.hospi, this.degr});
   final String doctor;
+  final String speci;
+  final String hospi;
+  final String degr;
   @override
   Widget build(BuildContext context) {
     double Width = MediaQuery.of(context).size.width / 411;
     double Height = MediaQuery.of(context).size.height / 731;
     return Container(
       margin: EdgeInsets.only(
-          left: 25 * Width, right: 20 * Width, bottom: 25 * Height),
+          top: 10 * Height,
+          left: 25 * Width,
+          right: 20 * Width,
+          bottom: 25 * Height),
       width: 320 * Width,
-      height: 180 * Height,
+      height: 210 * Height,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
-          BoxShadow(
-            color: Color(0x3f000000),
-            blurRadius: 4,
-            offset: Offset(0, 4),
-          ),
           BoxShadow(
             color: Color(0x3f000000),
             blurRadius: 4,
@@ -191,10 +208,46 @@ class DoctorContainer extends StatelessWidget {
               ),
             ),
           ),
+          Container(
+            padding: EdgeInsets.only(top: 10, left: 20),
+            child: Text(
+              speci,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 18,
+                fontFamily: "Raleway",
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.only(top: 10, left: 20),
+            child: Text(
+              degr,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 18,
+                fontFamily: "Raleway",
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.only(top: 10, left: 20),
+            child: Text(
+              "Current Hospital : $hospi",
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 18,
+                fontFamily: "Raleway",
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
           //Padding(padding: EdgeInsets.only(top: 100,left: 20),),
           Container(
             //padding: EdgeInsets.only(top: 10,left: 20),
-            margin: EdgeInsets.only(top: 100 * Height, left: 160 * Width),
+            margin: EdgeInsets.only(top: 10 * Height, left: 160 * Width),
             width: 160 * Width,
             height: 40 * Height,
             child: TextButton(

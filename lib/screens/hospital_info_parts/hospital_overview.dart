@@ -6,14 +6,14 @@ import 'package:amoc/screens/appoint.dart';
 
 //Crud crudObj = Crud();
 
-class Overview extends StatefulWidget {
-  Overview({this.disname});
+class HospitalOverview extends StatefulWidget {
+  HospitalOverview({this.disname});
   final String disname;
   @override
-  _OverviewState createState() => _OverviewState();
+  _HospitalOverviewState createState() => _HospitalOverviewState();
 }
 
-class _OverviewState extends State<Overview> {
+class _HospitalOverviewState extends State<HospitalOverview> {
   @override
   initState() {
     // getdata();
@@ -27,13 +27,13 @@ class _OverviewState extends State<Overview> {
   // }
   void read(em) {
     final firestoreInstance = FirebaseFirestore.instance;
-    firestoreInstance.collection("info_disease").doc(em).get().then((value) {
+    firestoreInstance.collection("Hospitals").doc(em).get().then((value) {
       //print(value.data());
       print(value.data()["Overview"]);
       setState(() {
         overviewData = value.data()["Overview"];
         //overviewData = overviewData +
-        //"hjhslgrs gshglksrg hh giowherg htioghw thow hghuhghogh 0ghoir hgi ih ihgiohgirhghiorhgio hiohri ghriogh oiri hgroghioh gdr hd hdh thth gh dghdgj dgn dgjfgj dgn dghj dgth dg tdj dg dg g jg fn gdn g j j dg ndg j dg dg n gd j dtj dg jd g  j gj d  g j tr jd g dg n dgj  j rt j gf ng f fjg j j  f j fg nfg j f j yj f gn jgfn";
+        //  "hjhslgrs gshglksrg hh giowherg htioghw thow hghuhghogh 0ghoir hgi ih ihgiohgirhghiorhgio hiohri ghriogh oiri hgroghioh gdr hd hdh thth gh dghdgj dgn dgjfgj dgn dghj dgth dg tdj dg dg g jg fn gdn g j j dg ndg j dg dg n gd j dtj dg jd g  j gj d  g j tr jd g dg n dgj  j rt j gf ng f fjg j j  f j fg nfg j f j yj f gn jgfn";
       });
     });
   }

@@ -47,7 +47,6 @@ class CommonDiseases extends StatelessWidget {
   }
 }
 
-
 class diseaseContainer extends StatelessWidget {
   diseaseContainer({this.mssg, this.width, this.height});
   final String mssg;
@@ -139,7 +138,7 @@ class symmaincont extends StatelessWidget {
                     crossAxisCount: 2,
                     children: [
                       ...Diss.map(
-                            (i) => Column(
+                        (i) => Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Padding(padding: EdgeInsets.only(top: 20)),
