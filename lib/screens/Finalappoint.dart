@@ -4,10 +4,14 @@ import 'package:amoc/utilis/constants.dart';
 import 'package:flutter/painting.dart';
 import 'package:twilio_flutter/twilio_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:amoc/Services/auth_services.dart';
+import 'package:amoc/screens/Appoints/Appointrecords.dart';
 
 String _chosenValue;
 DateTime selectedDate = DateTime.now();
 TwilioFlutter twilioFlutter;
+
 class AddAppointment extends StatefulWidget {
   AddAppointment({this.disname});
   final disname;
@@ -16,8 +20,7 @@ class AddAppointment extends StatefulWidget {
 }
 
 class _AddAppointmentState extends State<AddAppointment> {
-
-  String date= DateFormat('dd/MM/yyyy').format(selectedDate);
+  String date = DateFormat('dd/MM/yyyy').format(selectedDate);
   final TextEditingController _decriptionController = TextEditingController();
   bool _decideWhichDayToEnable(DateTime day) {
     if ((day.isAfter(DateTime.now().subtract(Duration(days: 1))) &&
@@ -41,6 +44,7 @@ class _AddAppointmentState extends State<AddAppointment> {
         date = DateFormat('dd/MM/yyyy').format(selectedDate);
       });
   }
+
   void sendSms() async {
     twilioFlutter.sendSMS(
         toNumber: '+916355592698',
@@ -55,15 +59,31 @@ class _AddAppointmentState extends State<AddAppointment> {
     );
   }
 
+  void insert() {
+    final firestoreInstance = FirebaseFirestore.instance;
+    var firebaseUser = FirebaseAuth.instance.currentUser;
+    print(firebaseUser.uid);
+    firestoreInstance.collection(currentemail).doc().set({
+      "Doctor": "Specialist",
+      "Disease": widget.disname,
+      "Description": _decriptionController.text,
+      "Date": date,
+      "Time": _chosenValue
+      // "Basic Info":{}
+    }).then((_) {
+      print("data instered success!");
+    });
+  }
 
   @override
   void initState() {
     twilioFlutter = TwilioFlutter(
         accountSid: 'AC727cebaaed325b94b16b80dbe12d4440',
-        authToken: '1998c5ab6930b259c14458fd86310502',
+        authToken: '0b0ac105546de047bbaa1ed9c0c964f4',
         twilioNumber: '+18282660080');
     super.initState();
   }
+
   Widget build(BuildContext context) {
     double Width = MediaQuery.of(context).size.width / 411;
     double Height = MediaQuery.of(context).size.height / 731;
@@ -249,7 +269,7 @@ class _AddAppointmentState extends State<AddAppointment> {
                                 ),
                                 Text(
                                   date,
-                                 // "${selectedDate.toLocal()}".split(' ')[0],
+                                  // "${selectedDate.toLocal()}".split(' ')[0],
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 18 * Height,
@@ -298,7 +318,14 @@ class _AddAppointmentState extends State<AddAppointment> {
                           width: 100 * Width,
                           height: 40 * Height,
                           child: TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return AppointRecords();
+                                },
+                              );
+
+                            },
                             child: Center(
                               child: Text(
                                 'Cancel !',
@@ -322,6 +349,7 @@ class _AddAppointmentState extends State<AddAppointment> {
                           child: TextButton(
                             onPressed: () {
                               sendSms();
+                             // insert();
                             },
                             child: Center(
                               child: Text(

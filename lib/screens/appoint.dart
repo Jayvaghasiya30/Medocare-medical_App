@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:amoc/utilis/constants.dart';
 import 'package:flutter/painting.dart';
 import 'package:amoc/screens/Finalappoint.dart';
+import 'package:amoc/screens/Appoints/Appointrecords.dart';
 
 class Appoint extends StatefulWidget {
   Appoint({this.disname});
@@ -184,8 +185,9 @@ class _AppointState extends State<Appoint> {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) {
-                                    return AddAppointment(
-                                        disname: widget.disname);
+                                    return //AppointRecords();
+                                       AddAppointment(
+                                       disname: widget.disname);
                                   },
                                 ),
                               );

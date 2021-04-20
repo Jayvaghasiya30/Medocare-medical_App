@@ -422,6 +422,7 @@ class verifypage extends StatelessWidget {
                                         "Username": username,
                                         "email": result,
                                         "password": pass,
+                                       // "Basic Info":{}
                                       }).then((_) {
                                         print("data instered success!");
                                       });

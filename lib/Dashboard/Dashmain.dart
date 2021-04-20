@@ -11,6 +11,7 @@ import 'package:amoc/utilis/constants.dart';
 import 'package:amoc/screens/specilaist.dart';
 import 'package:amoc/screens/hospital.dart';
 import 'package:amoc/screens/specialist_info.dart';
+import 'package:amoc/screens/Appoints/Appointrecords.dart';
 final Diseases = [
   // 'Asthma',
   // 'Common Flu',
@@ -54,7 +55,7 @@ class _DashboardState extends State<Dashboard> {
   static  List<Widget> _widgetOptions = <Widget>[
    dashcontainer(),
     symmaincont(),
-    dashcontainer(),
+    Recod(),
 
   ];
 
@@ -70,6 +71,7 @@ class _DashboardState extends State<Dashboard> {
     read(widget.email);
     //print(Auth().Authprovider());
     readinfos();
+    readappoint();
   }
 
   @override
@@ -85,7 +87,34 @@ class _DashboardState extends State<Dashboard> {
   }
 
 
+  void readappoint() {
+     Deccrep =[];
+     docname = [];
+     date = [];
+    time = [];
+     dis = [];
+    final firestoreInstance = FirebaseFirestore.instance;
+    FirebaseFirestore.instance
+        .collection(currentemail)
+        .get()
+        .then((querySnapshot) {
+      querySnapshot.docs.forEach((result) {
+        if (result != null) {
+          setState(() {
+            Deccrep.add(result.data()["Description"]);
+            date.add(result.data()['DAte']);
+            time.add(result.data()["Time"]);
+            docname.add(result.data()["Doctor"]);
+            dis.add(result.data()["Disease"]);
 
+          });
+
+        } else
+          print("Erro");
+      });
+
+    });
+  }
 
   void readinfos() {
     Diss = [];
@@ -231,7 +260,7 @@ class _DashboardState extends State<Dashboard> {
                   Icons.description,
                   size: 41,
                 ),
-                label: 'Lab Records',
+                label: 'My Appointmnets..',
               ),
             ],
           ),
