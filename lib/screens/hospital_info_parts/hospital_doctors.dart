@@ -9,8 +9,8 @@ class HospitalDoctors extends StatefulWidget {
   final String hospitalname;
   var di = [];
   var spec = [];
-  var hosp = [];
   var deg = [];
+  var hosp = [];
   //List<Map<String, dynamic>> users;
   @override
   _HospitalDoctorsState createState() => _HospitalDoctorsState();
@@ -46,8 +46,8 @@ class _HospitalDoctorsState extends State<HospitalDoctors> {
         if (result != null) {
           setState(() {
             widget.di.add(result.data()["Name"]);
-            widget.deg.add(result.data()["Qualifications"]);
             widget.spec.add(result.data()["Specialist"]);
+            widget.deg.add(result.data()["Qualifications"]);
             widget.hosp.add(result.data()["Current Hospital"]);
           });
           print(result.data()['Name']);
@@ -133,19 +133,16 @@ class _HospitalDoctorsState extends State<HospitalDoctors> {
                 colors: [Color(0xff71e1de), Color(0x0071e1de)],
               ),
             ),
-            child: ListView(
-              children: [
-                Padding(padding: EdgeInsets.only(top: 20)),
-                ...widget.di.map(
-                  (i) => Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      DoctorContainer(doctor: i),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+            child: ListView.builder(
+                itemCount: widget.di.length,
+                itemBuilder: (context, index) {
+                  return DoctorContainer(
+                    doctor: widget.di[index],
+                    hospi: widget.hosp[index],
+                    special: widget.spec[index],
+                    degr: widget.deg[index],
+                  );
+                }),
           ),
         ],
       ),
@@ -155,8 +152,11 @@ class _HospitalDoctorsState extends State<HospitalDoctors> {
 }
 
 class DoctorContainer extends StatelessWidget {
-  DoctorContainer({this.doctor});
+  DoctorContainer({this.doctor, this.special, this.hospi, this.degr});
   final String doctor;
+  final String special;
+  final String hospi;
+  final String degr;
   @override
   Widget build(BuildContext context) {
     double Width = MediaQuery.of(context).size.width / 411;
@@ -165,7 +165,7 @@ class DoctorContainer extends StatelessWidget {
       margin: EdgeInsets.only(
           left: 25 * Width, right: 20 * Width, bottom: 25 * Height),
       width: 320 * Width,
-      height: 180 * Height,
+      height: 210 * Height,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
@@ -192,10 +192,46 @@ class DoctorContainer extends StatelessWidget {
               ),
             ),
           ),
+          Container(
+            padding: EdgeInsets.only(top: 10, left: 20),
+            child: Text(
+              special,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 18,
+                fontFamily: "Raleway",
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.only(top: 10, left: 20),
+            child: Text(
+              degr,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 18,
+                fontFamily: "Raleway",
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.only(top: 10, left: 20),
+            child: Text(
+              "Current Hospital : $hospi",
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 18,
+                fontFamily: "Raleway",
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
           //Padding(padding: EdgeInsets.only(top: 100,left: 20),),
           Container(
             //padding: EdgeInsets.only(top: 10,left: 20),
-            margin: EdgeInsets.only(top: 100 * Height, left: 160 * Width),
+            margin: EdgeInsets.only(top: 10 * Height, left: 160 * Width),
             width: 160 * Width,
             height: 40 * Height,
             child: TextButton(

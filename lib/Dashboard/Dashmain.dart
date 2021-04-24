@@ -12,6 +12,7 @@ import 'package:amoc/screens/specilaist.dart';
 import 'package:amoc/screens/hospital.dart';
 import 'package:amoc/screens/specialist_info.dart';
 import 'package:amoc/screens/Appoints/Appointrecords.dart';
+import 'package:amoc/screens/Diseaseinfo.dart';
 
 final Diseases = [
   'Asthma',
@@ -19,7 +20,7 @@ final Diseases = [
   'Conjunctivitis',
   'Depression',
   'Diarrhoea',
-  'See all \n Dieaases',
+  //'See all \n Dieaases',
 ];
 final Secialist = [
   'Pediatrician',
@@ -377,7 +378,10 @@ class dashcontainer extends StatelessWidget {
                                             return
                                                 //Hospital();
                                                 //Specialist();
-                                                CommonDiseases();
+                                                // CommonDiseases();
+                                                DiseaseInfo(
+                                              disname: i,
+                                            );
                                           },
                                         ),
                                       );
@@ -385,6 +389,24 @@ class dashcontainer extends StatelessWidget {
                                   ),
                                 ],
                               ),
+                            ),
+                            Smallboxes(
+                              width: 55,
+                              height: 55,
+                              mssg: "See all \n Diseases",
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return
+                                          //SpecilaistInfo(disname: ,)
+                                          //Hospital();
+                                          //Specialist();
+                                          CommonDiseases();
+                                    },
+                                  ),
+                                );
+                              },
                             ),
                           ],
                         ),

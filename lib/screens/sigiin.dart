@@ -108,7 +108,7 @@ class SignIn extends StatelessWidget {
                       top: 273 * Height / 731,
                       child: Container(
                         width: 243 * Width / 411,
-                        height: 35 * Height / 731,
+                        height: 45 * Height / 731,
                         decoration: boxDecoration(Colors.white),
                         child: TextFormField(
                           obscuringCharacter: '*',
@@ -140,7 +140,7 @@ class SignIn extends StatelessWidget {
                       top: 202 * Height / 731,
                       child: Container(
                         width: 243 * Width / 411,
-                        height: 35,
+                        height: 45 * Height / 731,
                         child: TextFormField(
                           controller: _emailController,
                           decoration: inputdecor("Enter Email"),
